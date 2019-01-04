@@ -12,8 +12,8 @@ require (
 	github.com/spf13/cobra v0.0.3
 	github.com/spf13/viper v1.3.1
 	github.com/srvc/wraperr v0.2.0
+	go.uber.org/zap v1.9.1
 	golang.org/x/lint v0.0.0-20181217174547-8f45f776aaf1
-	gopkg.in/dixonwille/wlog.v2 v2.0.0
 	honnef.co/go/tools v0.0.0-20190102075043-fe93b0e3b36b
 	mvdan.cc/unparam v0.0.0-20181201214637-68701730a1d7
 )

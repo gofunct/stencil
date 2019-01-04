@@ -124,4 +124,4 @@ func init() {
 
 	config.BindPFlags(pFlags)
 	config.Unmarshal(&options)
-}
+	}
