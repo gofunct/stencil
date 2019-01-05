@@ -9,14 +9,6 @@
 * Description: Golang funcmaps, virtual file systems, and code generation utilities
 * Status: WIP
 
-## Table of Contents
-- [Stencil](#Stencil)
-  * [Table of Contents](#Table-of-Contents)
-  * [Statement of Need](#Statement of Need)
-  * [Project Roadmap](#Project Roadmap)
-  * [Project Roadmap](#Issues)
-  * [File Tree](#File-Tree)
-
 ## Statement of Need
  I spend too much time writing boilerplate instead of designing apis and writing business logic
  
@@ -75,81 +67,12 @@ Flags:
 Use "stencil [command] --help" for more information about a command.
 
 ``` 
-## Default Config File
-```yaml
-aliases: []
-author: Coleman Word
-bucket: gofunct-storage
-cloud-region: ""
-config: ""
-db-host: ""
-db-name: gofunct-db
-db-pw: gofunct-db
-db-user: gofunct-db
-dockerhub: ""
-email: coleman.word@gofunct.com
-example: ""
-github: gofunct
-image: alpine:3.8
-lis: :8080
-log-level: verbose
-logo: https://github.com/gofunct/common/blob/master/logo/dark_logo_transparent_background.png?raw=true
-runvar: ""
-runvar-config: ""
-runvar-wait: 5s
-scope: not available
-services: []
-tools:
-- gex
-- reviewdog
-- errcheck
-- gogoslick
-- grpc-swagger
-- grpc-gateway
-- protocgen-go
-- golint
-- megacheck
-- wire
-- unparam
-- gox
-- gotests
-version: v0.1.1
 
-```
+## Project Variables (viper, cobra, env)
 
-## FuncMap
-
-```text
-String Functions: trim, wrap, randAlpha, plural, etc.
-String List Functions: splitList, sortAlpha, etc.
-Math Functions: add, max, mul, etc.
-Integer Slice Functions: until, untilStep
-Date Functions: now, date, etc.
-Defaults Functions: default, empty, coalesce, toJson, toPrettyJson
-Encoding Functions: b64enc, b64dec, etc.
-Lists and List Functions: list, first, uniq, etc.
-Dictionaries and Dict Functions: dict, hasKey, pluck, etc.
-Type Conversion Functions: atoi, int64, toString, etc.
-File Path Functions: base, dir, ext, clean, isAbs
-Flow Control Functions: fail
-Advanced Functions
-UUID Functions: uuidv4
-OS Functions: env, expandenv
-Version Comparison Functions: semver, semverCompare
-Reflection: typeOf, kindIs, typeIsLike, etc.
-Cryptographic and Security Functions: derivePassword, sha256sum, genPrivateKey
-```
-
-## Project Roadmap
-
-- [ ] submit beta-ready realease v0.1.1
-- [ ] pass variables to funcmap through config file, flags, or env(viper, cobra)
-- [ ] embed template assets in virtual os with go-asset-builder and afero
-- [ ] create custom func map that supports file system methods
-- [ ] create plugins architecture to support extensibility
-- [ ] create cli utility for common template executions
-
-### Template Variables (viper, cobra, env)
+<details><summary>show</summary>
+<p>
+ 
 - [x] author
 - [x] email
 - [x] description
@@ -170,44 +93,13 @@ Cryptographic and Security Functions: derivePassword, sha256sum, genPrivateKey
 - [x] runtimeConfigName
 - [x] baseImage 
 
-### Func Map(methods)
-- [ ] Gopath
-- [ ] ImportDir
-- [ ] PackageDir
-- [ ] CmdDir
-- [ ] RootDir
-- [ ] VendorDir
-- [ ] ProtoDir
-- [ ] CamelCase
-- [ ] Proto Methods
-- [ ] Proto Services
-- [ ] Download(go get ...)
-- [ ] GoDocs
-- [ ] Project File Tree
-
-### File Generation
-- [ ] cmd/root.go(cobra): root cobra command
-- [ ] cmd/run.go(cobra): start a stackdriver server
-- [ ] deploy/: main.tf, vars.tf, output.tf, deployment.yaml(kube manifest)
-- [ ] certs/: makefile and .gitignore to generate certs
-- [ ] proto/: protobuf file with gogo & gateway annotations
-- [ ] bin/: third party binaries
-- [ ] main.go: executes root command
-- [ ] Dockerfile
-- [ ] Makefile
-- [ ] README.md
-- [ ] CONTRIBUTING.md
-- [ ] MIT LICENSE
-- [ ] GoDocs2md
-- [ ] reviewdog.yaml
-- [ ] config.yaml
-- [ ] .gitignore
-- [ ] .dockerignore
-- [ ] .gcloudignore
-- [ ] .tools.go: 3rd party binary imports
-- [ ] homebrew formulae
+</p>
+</details>
 
 ## Issues
+
+<details><summary>show</summary>
+<p>
 
 - [ ] Not Done
 - [ ] 
@@ -223,7 +115,108 @@ Cryptographic and Security Functions: derivePassword, sha256sum, genPrivateKey
 - [ ]
 - [ ]
 
+</p>
+</details>
+
+## Func Map
+
+<details><summary>show</summary>
+<p>
+ 
+ - Manipulation
+ 
+ ```text
+String Functions: trim, wrap, randAlpha, plural, etc.
+String List Functions: splitList, sortAlpha, etc.
+Math Functions: add, max, mul, etc.
+Integer Slice Functions: until, untilStep
+Date Functions: now, date, etc.
+Defaults Functions: default, empty, coalesce, toJson, toPrettyJson
+Encoding Functions: b64enc, b64dec, etc.
+Lists and List Functions: list, first, uniq, etc.
+Dictionaries and Dict Functions: dict, hasKey, pluck, etc.
+Type Conversion Functions: atoi, int64, toString, etc.
+File Path Functions: base, dir, ext, clean, isAbs
+Flow Control Functions: fail
+Advanced Functions
+UUID Functions: uuidv4
+OS Functions: env, expandenv
+Version Comparison Functions: semver, semverCompare
+Reflection: typeOf, kindIs, typeIsLike, etc.
+Cryptographic and Security Functions: derivePassword, sha256sum, genPrivateKey
+ 
+ ```
+ 
+ 
+-Strings
+```text
+{{trim "   hello    "}}:                                                            hello
+{{trimAll "$" "$5.00"}}:                                                            5.00
+{{trimSuffix "-" "hello-"}}:                                                        hello
+{{upper "hello"}}:                                                                  HELLO
+{{lower "HELLO"}}:                                                                  hello
+{{title "hello world"}}:                                                            Hello World
+{{untitle "Hello World"}}:                                                          hello world
+{{repeat 3 "hello"}}:                                                               hellohellohello
+{{substr 0 5 "hello world"}}:                                                       hello
+{{nospace "hello w o r l d"}}:                                                      helloworld
+{{trunc 5 "hello world"}}:                                                          hello
+{{abbrev 5 "hello world"}}:                                                         he...
+{{abbrevboth 5 10 "1234 5678 9123"}}:                                               ...5678...
+{{initials "First Try"}}:                                                           FT
+{{randNumeric 3}}:                                                                  528
+{{- /*{{wrap 80 $someText}}*/}}:
+{{wrapWith 5 "\t" "Hello World"}}:                                                  Hello	World
+{{contains "cat" "catch"}}:                                                         true
+{{hasPrefix "cat" "catch"}}:                                                        true
+{{cat "hello" "beautiful" "world"}}:                                                hello beautiful world
+{{- /*{{indent 4 $lots_of_text}}*/}}:
+{{- /*{{indent 4 $lots_of_text}}*/}}:
+{{"I Am Henry VIII" | replace " " "-"}}:                                            I-Am-Henry-VIII
+{{len .Service.Method | plural "one anchovy" "many anchovies"}}:                    many anchovies
+{{snakecase "FirstName"}}:                                                          first_name
+{{camelcase "http_server"}}:                                                        HttpServer
+{{shuffle "hello"}}:                                                                holle
+{{regexMatch "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}" "test@acme.com"}}:   true
+{{- /*{{regexFindAll "[2,4,6,8]" "123456789"}}*/}}:
+{{regexFind "[a-zA-Z][1-9]" "abcd1234"}}:                                           d1
+{{regexReplaceAll "a(x*)b" "-ab-axxb-" "${1}W"}}:                                   -W-xxW-
+{{regexReplaceAllLiteral "a(x*)b" "-ab-axxb-" "${1}"}}:                             -${1}-${1}-
+{{regexSplit "z+" "pizza" -1}}:                                                     [pi a]
+
+# Get one specific method on array method using index
+{{ index .Service.Method 1 }}:                                                      name:"Iii" input_type:".dummy.Dummy2" output_type:".dummy.Dummy1" options:<> 
+
+# Sprig: advanced
+{{if contains "cat" "catch"}}yes{{else}}no{{end}}:   yes
+{{1 | plural "one anchovy" "many anchovies"}}:       one anchovy
+{{2 | plural "one anchovy" "many anchovies"}}:       many anchovies
+{{3 | plural "one anchovy" "many anchovies"}}:       many anchovies
+
+```
+
+- Protoc
+
+```text
+# Common variables
+{{.File.Name}}:                                                                           helpers.proto
+{{.File.Name | upper}}:                                                                   HELPERS.PROTO
+{{.File.Package | base | replace "." "-"}}                                                dummy
+{{$packageDir := .File.Name | dir}}{{$packageDir}}                                        .
+{{$packageName := .File.Name | base | replace ".proto" ""}}{{$packageName}}               helpers
+{{$packageImport := .File.Package | replace "." "_"}}{{$packageImport}}                   dummy
+{{$namespacedPackage := .File.Package}}{{$namespacedPackage}}                             dummy
+{{$currentFile := .File.Name | getProtoFile}}{{$currentFile}}                             <nil>
+{{- /*{{- $currentPackageName := $currentFile.GoPkg.Name}}{{$currentPackageName}}*/}}
+```
+
+</p>
+</details>
+
 ## File Tree
+
+<details><summary>show</summary>
+<p>
 
 ```commandline
 .
@@ -345,5 +338,6 @@ Cryptographic and Security Functions: derivePassword, sha256sum, genPrivateKey
 │   └── doc.go
 ├── tools.go
 ```
-
+</p>
+</details>
 
