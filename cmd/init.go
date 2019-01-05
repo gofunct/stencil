@@ -21,35 +21,58 @@
 package cmd
 
 import (
-	"strings"
-
+	"fmt"
+	"github.com/gofunct/stencil/project"
 	"github.com/spf13/cobra"
+	"os"
+	"path/filepath"
 )
 
-// initCmd represents the init command
 var initCmd = &cobra.Command{
-	Use:   "init",
-	Short: "A brief description of your command",
-	Run: func(cmd *cobra.Command, args []string) {
-			askme()
+	Use:     "init [name]",
+	Aliases: []string{"initialize", "initialise", "create"},
+	Short:   "Initialize a Stencil Application",
+	Long: `Initialize (stencil init) will create a new application, with a license
+and the appropriate structure for a Stencil-based CLI application.
+  * If a name is provided, it will be created in the current directory;
+  * If no name is provided, the current directory will be assumed;
+  * If a relative path is provided, it will be created inside $GOPATH
+    (e.g. github.com/spf13/hugo);
+  * If an absolute path is provided, it will be created;
+  * If the directory already exists but is empty, it will be used.
+Init will not use an existing directory with contents.`,
 
-			ans := notify.Ask("write defaults to config file?")
-			if strings.Contains(ans, "y") {
-				config.WriteConfigAs("config.yaml")
+	Run: func(cmd *cobra.Command, args []string) {
+		wd, err := os.Getwd()
+		if err != nil {
+			proj.Exit(err)
+		}
+
+		if len(args) == 0 {
+			proj = project.CreateProjectFromPath(currentDir, config)
+		} else if len(args) == 1 {
+			arg := args[0]
+			if arg[0] == '.' {
+				arg = filepath.Join(wd, arg)
 			}
+			if filepath.IsAbs(arg) {
+				proj = project.CreateProjectFromPath(arg, config)
+			} else {
+				proj = project.CreateProject(config)
+			}
+		} else {
+			proj.Exit("please provide only one argument")
+		}
+
+		proj.InitializeProject(config)
+
+		fmt.Fprintln(cmd.OutOrStdout(), `Your Stencil application is ready at
+`+proj.AbsPath()+`
+Give it a try by going there and running `+"`go run main.go`."+`
+Add commands to it by running `+"`stencil add [cmdname]`.")
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(initCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// initCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// initCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

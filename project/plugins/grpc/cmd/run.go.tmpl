@@ -1,4 +1,4 @@
-// Copyright © 2019 Coleman Word <coleman.word@gofunct.com>
+// Copyright © 2019
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,20 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/spf13/cobra"
+	"{{ .importPath }}/server"
 )
 
-// configCmd represents the config command
-var configCmd = &cobra.Command{
-	Use:   "config",
-	Short: "A brief description of your command",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("Viper all setting value: %+v\n", config.AllSettings())
-	},
+func init() {
+	rootCmd.AddCommand(runCmd)
 }
 
-func init() {
-	rootCmd.AddCommand(configCmd)
+// runCmd represents the run command
+var runCmd = &cobra.Command{
+	Use:   "run",
+	Short: "start a grpc server",
+	RunE: func(cmd *cobra.Command, args []string) error {
+        return server.Run()
+	},
 }

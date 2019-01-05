@@ -1,7 +1,16 @@
 ![](https://github.com/gofunct/common/blob/master/logo/dark_logo_transparent_background.png?raw=true)
 
-# Stencil
+```commandline
 
+  _____ _                  _ _ 
+ / ____| |                (_) |
+| (___ | |_ ___ _ __   ___ _| |
+ \___ \| __/ _ \ '_ \ / __| | |
+ ____) | ||  __/ | | | (__| | |
+|_____/ \__\___|_| |_|\___|_|_|
+
+```
+# Summary
 * Author: Coleman Word 
 * Email: coleman.word@gofunct.com
 * Language: Golang
@@ -10,7 +19,7 @@
 * Status: WIP
 
 ## Table of Contents
-- [Stencil](#Stencil)
+- [Summary](#Summary)
   * [Table of Contents](#Table-of-Contents)
   * [Statement of Need](#Statement of Need)
   * [Project Roadmap](#Project Roadmap)
@@ -102,6 +111,30 @@ tools:
 version: v0.1.1
 
 ```
+
+## FuncMap
+
+```text
+String Functions: trim, wrap, randAlpha, plural, etc.
+String List Functions: splitList, sortAlpha, etc.
+Math Functions: add, max, mul, etc.
+Integer Slice Functions: until, untilStep
+Date Functions: now, date, etc.
+Defaults Functions: default, empty, coalesce, toJson, toPrettyJson
+Encoding Functions: b64enc, b64dec, etc.
+Lists and List Functions: list, first, uniq, etc.
+Dictionaries and Dict Functions: dict, hasKey, pluck, etc.
+Type Conversion Functions: atoi, int64, toString, etc.
+File Path Functions: base, dir, ext, clean, isAbs
+Flow Control Functions: fail
+Advanced Functions
+UUID Functions: uuidv4
+OS Functions: env, expandenv
+Version Comparison Functions: semver, semverCompare
+Reflection: typeOf, kindIs, typeIsLike, etc.
+Cryptographic and Security Functions: derivePassword, sha256sum, genPrivateKey
+```
+
 ## Project Roadmap
 
 - [ ] submit beta-ready realease v0.1.1
@@ -112,26 +145,25 @@ version: v0.1.1
 - [ ] create cli utility for common template executions
 
 ### Template Variables (viper, cobra, env)
-- [ ] author
-- [ ] email
-- [ ] languages
-- [ ] description
-- [ ] dependencies
-- [ ] serviceNames
-- [ ] gitUser
-- [ ] dockerUser
-- [ ] listenPort
-- [ ] bucket            
-- [ ] dbHost            
-- [ ] dbName            
-- [ ] dbUser            
-- [ ] dbPassword        
-- [ ] runVar            
-- [ ] runVarWaitTime    
-- [ ] listen            
-- [ ] cloudSQLRegion    
-- [ ] runtimeConfigName
-- [ ] baseImage 
+- [x] author
+- [x] email
+- [x] description
+- [x] dependencies
+- [x] serviceNames
+- [x] gitUser
+- [x] dockerUser
+- [x] listenPort
+- [x] bucket            
+- [x] dbHost            
+- [x] dbName            
+- [x] dbUser            
+- [x] dbPassword        
+- [x] runVar            
+- [x] runVarWaitTime    
+- [x] listen            
+- [x] cloudSQLRegion    
+- [x] runtimeConfigName
+- [x] baseImage 
 
 ### Func Map(methods)
 - [ ] Gopath
@@ -189,8 +221,125 @@ version: v0.1.1
 ## File Tree
 
 ```commandline
-└── README.md
-
+.
+├── Dockerfile
+├── LICENSE
+├── Makefile
+├── README.md
+├── bin
+│   └── doc.go
+├── cmd
+│   ├── config.go
+│   ├── init.go
+│   └── root.go
+├── doc.go
+├── docs
+│   └── README.md
+├── funcmap
+│   ├── camel.go
+│   ├── crypto.go
+│   ├── crypto_test.go
+│   ├── date.go
+│   ├── date_test.go
+│   ├── defaults.go
+│   ├── defaults_test.go
+│   ├── dict.go
+│   ├── dict_test.go
+│   ├── functions.go
+│   ├── functions_test.go
+│   ├── list.go
+│   ├── list_test.go
+│   ├── numbers.go
+│   ├── numbers_test.go
+│   ├── reflect.go
+│   ├── reflect_test.go
+│   ├── regex.go
+│   ├── regex_test.go
+│   ├── snake.go
+│   ├── strings.go
+│   ├── strings_test.go
+│   └── viper.go
+├── go.mod
+├── go.sum
+├── gocloud
+│   ├── app.go
+│   ├── aws
+│   │   ├── aws.go
+│   │   ├── blob.go
+│   │   ├── runtimevar.go
+│   │   └── user.go
+│   ├── bucket.go
+│   ├── flags.go
+│   ├── google
+│   │   ├── app.go
+│   │   ├── blob.go
+│   │   ├── db.go
+│   │   ├── gcloud.go
+│   │   ├── kube.go
+│   │   ├── run.go
+│   │   ├── runtime_config.go
+│   │   └── user.go
+│   ├── healthcheck.go
+│   ├── inject_aws.go
+│   ├── inject_gcp.go
+│   ├── inject_local.go
+│   └── wire_gen.go
+├── hack
+│   └── doc.go
+├── main.go
+├── project
+│   ├── ask.go
+│   ├── check.go
+│   ├── convert.go
+│   ├── create.go
+│   ├── delete.go
+│   ├── find.go
+│   ├── gen.go
+│   ├── generator.go
+│   ├── http
+│   │   └── httpvfs.go
+│   ├── init.go
+│   ├── join.go
+│   ├── license.go
+│   ├── match.go
+│   ├── parse.go
+│   ├── plugins
+│   │   ├── certs
+│   │   │   └── Makefile.tmpl
+│   │   ├── gen.go
+│   │   ├── grpc
+│   │   │   ├── cmd
+│   │   │   │   └── run.go.tmpl
+│   │   │   ├── protos
+│   │   │   │   └── service.proto.tmpl
+│   │   │   ├── register.go.tmpl
+│   │   │   ├── run.go.tmpl
+│   │   │   ├── server.go.tmpl
+│   │   │   └── server_test.go.tmpl
+│   │   ├── init
+│   │   │   ├── Gopkg.toml.tmpl
+│   │   │   ├── LICENSE
+│   │   │   ├── License.tmpl
+│   │   │   ├── README.md.tmpl
+│   │   │   ├── cmd
+│   │   │   │   └── root.go.tmpl
+│   │   │   ├── config.toml.tmpl
+│   │   │   ├── main.go.tmpl
+│   │   │   └── tools.go.tmpl
+│   │   └── init.go
+│   ├── project.go
+│   ├── project_test.go
+│   ├── testing
+│   │   ├── generator_mock.go
+│   │   └── script_mock.go
+│   ├── trim.go
+│   ├── types.go
+│   ├── utils.go
+│   └── write.go
+├── temp
+│   └── doc.go
+├── tools.go
+├── tree.txt
 ```
 
 
