@@ -282,11 +282,34 @@ var genericMap = map[string]interface{}{
 	"regexSplit":             regexSplit,
 
 	// Config
-	"copyright":  CopyrightFromConfig(),
-	"license":    viper.GetString("license"),
-	"cmdPackage": viper.GetString("cmdPackage"),
+	"copyright":    CopyrightFromConfig(),
+	"license":      viper.GetString("license"),
+	"cmdPath":      viper.GetString("cmdPackage"),
+	"binPath":      viper.GetString("binPath"),
+	"vendorPath":   viper.GetString("vendorpath"),
+	"protoPath":    viper.GetString("protoPath"),
+	"importPath":   viper.GetString("importPath"),
+	"author":       viper.GetString("author"),
+	"email":        viper.GetString("email"),
+	"version":      viper.GetString("version"),
+	"dbname":       viper.GetString("db-name"),
+	"dbhost":       viper.GetString("db-host"),
+	"dbuser":       viper.GetString("db-user"),
+	"dbpassword":   viper.GetString("db-password"),
+	"logo":         viper.GetString("logo"),
+	"github":       viper.GetString("github"),
+	"dockerhub":    viper.GetString("dockerhub"),
+	"bucket":       viper.GetString("bucket"),
+	"runvarconfig": viper.GetString("runvar-config"),
+	"runvar":       viper.GetString("runvar"),
+	"runvarwait":   viper.GetString("runvar-wait"),
+	"services":     viper.GetStringSlice("services"),
+	"scope":        viper.GetString("scope"),
+	"tools":        viper.GetStringSlice("tools"),
+	"image":        viper.GetString("image"),
+	"lis":          viper.GetString("lis"),
+	"certPath": viper.GetString("cert-path"),
+	"keyPath": viper.GetString("key-path"),
+	"cloudRegion": viper.GetString("cloud-region"),
+
 }
-
-/*
-
- */
