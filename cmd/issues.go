@@ -28,7 +28,7 @@ import (
 // issuesCmd represents the issues command
 var issuesCmd = &cobra.Command{
 	Use:   "issues",
-	Short: "A brief description of your command",
+	Short: "a list of current issues with stencil",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(`
 - [ ] Not Done

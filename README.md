@@ -40,9 +40,9 @@ Available Commands:
   config      A brief description of your command
   help        Help about any command
   init        Initialize a Stencil Application
-  issues      A brief description of your command
-  roadmap     A brief description of your command
-  version     A brief description of your command
+  issues      a list of current issues with stencil
+  roadmap     a list of goals for stencil
+  version     print the version of stencil
 
 Flags:
   -a, --ask                    fill out a survey to set configs
@@ -73,7 +73,6 @@ Flags:
   -w, --write                  fill out a survey to set configs
 
 Use "stencil [command] --help" for more information about a command.
-
 
 ``` 
 ## Default Config File

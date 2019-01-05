@@ -29,7 +29,7 @@ import (
 // roadmapCmd represents the roadmap command
 var roadmapCmd = &cobra.Command{
 	Use:   "roadmap",
-	Short: "A brief description of your command",
+	Short: "a list of goals for stencil",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(`
 ## Project Roadmap
