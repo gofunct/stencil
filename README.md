@@ -344,7 +344,6 @@ Cryptographic and Security Functions: derivePassword, sha256sum, genPrivateKey
 ├── temp
 │   └── doc.go
 ├── tools.go
-├── tree.txt
 ```
 
 

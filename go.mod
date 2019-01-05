@@ -2,6 +2,7 @@ module github.com/gofunct/stencil
 
 require (
 	contrib.go.opencensus.io/exporter/stackdriver v0.6.0
+	github.com/Masterminds/sprig v2.16.0+incompatible
 	github.com/aokoli/goutils v1.0.1
 	github.com/aws/aws-sdk-go v1.16.11
 	github.com/go-sql-driver/mysql v1.4.1
@@ -10,17 +11,17 @@ require (
 	github.com/golang/protobuf v1.2.0
 	github.com/google/uuid v1.1.0
 	github.com/google/wire v0.2.0
+	github.com/gorilla/handlers v1.4.0
 	github.com/gorilla/mux v1.6.2
+	github.com/grpc-ecosystem/grpc-gateway v1.6.3
 	github.com/haya14busa/reviewdog v0.0.0-20180723114510-ffb00ef78fd3
 	github.com/huandu/xstrings v1.2.0
 	github.com/imdario/mergo v0.3.6
 	github.com/izumin5210/gex v0.4.4
 	github.com/jessevdk/go-assets v0.0.0-20160921144138-4f4301a06e15
 	github.com/jessevdk/go-assets-builder v0.0.0-20130903091706-b8483521738f
-	github.com/jessevdk/go-flags v1.4.0
 	github.com/kisielk/errcheck v1.1.0
 	github.com/mitchellh/gox v0.4.0
-	github.com/pkg/errors v0.8.0
 	github.com/spf13/afero v1.2.0
 	github.com/spf13/cobra v0.0.3
 	github.com/spf13/viper v1.3.1
