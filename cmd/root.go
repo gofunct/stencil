@@ -16,6 +16,7 @@ var (
 	rootCmd = &cobra.Command{
 		Use:   "stencil",
 		Short: "A generator for Stencil based Applications",
+		Version: "v0.1.1",
 	}
 	appName string
 	app     *runtime.App

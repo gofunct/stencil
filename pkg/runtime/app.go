@@ -23,7 +23,7 @@ type App struct {
 // NewProject returns App with specified project Name.
 func NewApp(projectName string) *App {
 	if projectName == "" {
-		er("can't create project with blank Name")
+		exit("can't create project with blank Name")
 	}
 
 	a := new(App)
@@ -37,7 +37,7 @@ func NewApp(projectName string) *App {
 	if a.AbsPath == "" {
 		wd, err := os.Getwd()
 		if err != nil {
-			er(err)
+			er("failed to get working directory", err)
 		}
 		for _, srcPath := range srcPaths {
 			goPath := filepath.Dir(srcPath)
@@ -60,21 +60,21 @@ func NewApp(projectName string) *App {
 // package.
 func NewAppFromPath(AbsPath string) *App {
 	if AbsPath == "" {
-		er("can't create project: AbsPath can't be blank")
+		exit("can't create project: AbsPath can't be blank")
 	}
 	if !filepath.IsAbs(AbsPath) {
-		er("can't create project: AbsPath is not absolute")
+		exit("can't create project: AbsPath is not absolute")
 	}
 
 	// If AbsPath is symlink, use its destination.
 	fi, err := os.Lstat(AbsPath)
 	if err != nil {
-		er("can't read path info: " + err.Error())
+		er("can't read path info: ", err)
 	}
 	if fi.Mode()&os.ModeSymlink != 0 {
 		path, err := os.Readlink(AbsPath)
 		if err != nil {
-			er("can't read the destination of symlink: " + err.Error())
+			er("can't read the destination of symlink: ",  err)
 		}
 		AbsPath = path
 	}
@@ -165,11 +165,11 @@ func init() {
 
 	cmdScript, err := a.Runtime.ExecuteTemplate(template, data)
 	if err != nil {
-		er(err)
+		a.Runtime.ErrExit("failed to execute template", err)
 	}
 	err = a.Runtime.WriteStringToFile(path, cmdScript)
 	if err != nil {
-		er(err)
+		a.Runtime.ErrExit("failed to write string to file", err)
 	}
 }
 
@@ -238,12 +238,12 @@ func main() {
 
 	mainScript, err := app.Runtime.ExecuteTemplate(mainTemplate, data)
 	if err != nil {
-		er(err)
+		app.Runtime.ErrExit("failed to execute template", err)
 	}
 
 	err = app.Runtime.WriteStringToFile(filepath.Join(app.MyAbsPath(), "main.go"), mainScript)
 	if err != nil {
-		er(err)
+		app.Runtime.ErrExit("failed to write string to file", err)
 	}
 
 }
@@ -334,11 +334,11 @@ func initConfig() {
 
 	rootScript, err := app.Runtime.ExecuteTemplate(template, data)
 	if err != nil {
-		er(err)
+		app.Runtime.ErrExit("failed to execute template", err)
 	}
 
 	err = app.Runtime.WriteStringToFile(filepath.Join(app.MyAbsPath(), "main.go"), rootScript)
 	if err != nil {
-		er(err)
+		app.Runtime.ErrExit("failed to write string to file", err)
 	}
 }

@@ -43,13 +43,13 @@ func init() {
 
 		out, err := exec.Command(goExecutable, "env", "GOPATH").Output()
 		if err != nil {
-			er(err)
+			er("failed to execute env", err)
 		}
 
 		toolchainGoPath := strings.TrimSpace(string(out))
 		goPaths = filepath.SplitList(toolchainGoPath)
 		if len(goPaths) == 0 {
-			er("$GOPATH is not set")
+			exit("$GOPATH is not set")
 		}
 	}
 	srcPaths = make([]string, 0, len(goPaths))
@@ -58,9 +58,18 @@ func init() {
 	}
 }
 
-func er(msg interface{}) {
-	fmt.Println("Error:", msg)
-	os.Exit(1)
+func (r *Runtime) ErrExit(msg string, er error) {
+		r.UI.UI.Error(msg)
+		r.UI.UI.Error(errors.WithStack(er).Error())
+		os.Exit(1)
+}
+
+func er(msg string, er error) {
+	zap.L().Fatal(msg, zap.Error(er))
+}
+
+func exit(msg string) {
+	zap.L().Fatal(msg)
 }
 
 type Runtime struct {
@@ -297,7 +306,7 @@ func (r *Runtime) initConfig(cmd *cobra.Command) error {
 func (r *Runtime) IsEmpty(path string) bool {
 	fi, err := os.Stat(path)
 	if err != nil {
-		er(err)
+		r.ErrExit("failed to execute os.Stat on path", err)
 	}
 
 	if !fi.IsDir() {
@@ -306,13 +315,13 @@ func (r *Runtime) IsEmpty(path string) bool {
 
 	f, err := os.Open(path)
 	if err != nil {
-		er(err)
+		r.ErrExit("failed to open path", err)
 	}
 	defer f.Close()
 
 	names, err := f.Readdirnames(-1)
 	if err != nil && err != io.EOF {
-		er(err)
+		r.ErrExit("failed to read dir names", err)
 	}
 
 	for _, name := range names {
@@ -333,7 +342,7 @@ func (r *Runtime) Exists(path string) bool {
 		return true
 	}
 	if !os.IsNotExist(err) {
-		er(err)
+		r.ErrExit("file or directory does not exist", err)
 	}
 	return false
 }
@@ -434,7 +443,7 @@ func (r *Runtime) RunGoFormat(VCSHost string, user string, app string) error {
 func (r *Runtime) TrimSrcPath(AbsPath, srcPath string) string {
 	relPath, err := filepath.Rel(srcPath, AbsPath)
 	if err != nil {
-		er(err)
+		r.ErrExit("failed to trim src path", err)
 	}
 	return relPath
 }
