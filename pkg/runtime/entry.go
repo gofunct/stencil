@@ -1,10 +1,5 @@
 package runtime
 
-import (
-	"sort"
-	"strings"
-)
-
 // File represents a file content.
 type File struct {
 	Path string

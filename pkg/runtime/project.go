@@ -4,7 +4,6 @@ import (
 	"github.com/gofunct/stencil/pkg/runtime/plugins"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 type Project interface {
@@ -32,20 +31,4 @@ func NewProject(plugin, path string, cmd *cobra.Command) (Project, error) {
 	}
 
 	return r, nil
-}
-
-func (r *Runtime) initConfig(cmd *cobra.Command) error {
-	r.Config = viper.New()
-	c := r.Config
-	c.AddConfigPath(".")
-	c.AutomaticEnv()
-	c.SetEnvPrefix("stencil")
-	c.SetConfigName("stencil")
-	c.SetFs(r.FS.RootFS)
-	if err := c.SafeWriteConfig(); err != nil {
-		return errors.Wrapf(err, "%s", "failed to write config")
-	}
-	c.BindPFlags(cmd.PersistentFlags())
-	c.BindPFlags(cmd.Flags())
-	return nil
 }
