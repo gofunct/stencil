@@ -3,6 +3,7 @@ package ui
 import (
 	"fmt"
 	"github.com/fatih/color"
+	"github.com/gofunct/stencil/pkg/iio"
 	"github.com/pkg/errors"
 	"github.com/tcnksm/go-input"
 	"go.uber.org/zap"
@@ -10,42 +11,24 @@ import (
 )
 
 type UI struct {
-	io        IO
-	inputUI   *input.UI
-	inSection bool
-	Closers   []func()
+	io      *iio.IO
+	inputUI *input.UI
 	*printer
 }
 
-func (u *UI) Section(msg string) {
-	if u.inSection {
-		fmt.Fprintln(u.io.Out)
-		u.inSection = false
+func NewUI() *UI {
+	return &UI{
+		io:      iio.DefaultIO(),
+		inputUI: input.DefaultUI(),
+		printer: NewPrinter(),
 	}
-	u.Print(msg)
 }
-
-func (u *UI) Subsection(msg string) {
-	if u.inSection {
-		fmt.Fprintln(u.io.Out)
-		u.inSection = false
-	}
-	u.Print(msg)
-}
-
 func (u *UI) ItemSuccess(msg string) {
-	u.inSection = true
-	u.Print(msg)
-}
-
-func (u *UI) ItemSkipped(msg string) {
-	u.inSection = true
-	u.Print(msg)
+	u.UI.Success(msg)
 }
 
 func (u *UI) ItemFailure(msg string, errs ...error) {
-	u.inSection = true
-	u.Print(msg)
+	u.UI.Error(msg)
 
 	fprintln := color.New(color.FgRed).FprintlnFunc()
 	for _, err := range errs {

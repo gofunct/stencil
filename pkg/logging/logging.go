@@ -1,7 +1,8 @@
-package ui
+package logging
 
 import (
 	"fmt"
+	"github.com/gofunct/stencil/pkg/iio"
 	"os"
 	"time"
 
@@ -43,7 +44,7 @@ var (
 )
 
 // AddLoggingFlags sets "--debug" and "--verbose" flags to the given *cobra.Command instance.
-func (u printer) AddLoggingFlags(cmd *cobra.Command) {
+func AddLoggingFlags(cmd *cobra.Command) {
 	var (
 		debugEnabled, verboseEnabled bool
 	)
@@ -65,40 +66,42 @@ func (u printer) AddLoggingFlags(cmd *cobra.Command) {
 	cobra.OnInitialize(func() {
 		switch {
 		case debugEnabled:
-			u.Debug()
+			Debug()
 		case verboseEnabled:
-			u.VerboseLog()
+			VerboseLog()
 		}
 	})
 }
 
 // Debug sets a debug logger in global.
-func (u *printer) Debug() {
+func Debug() {
 	logging = LoggingDebug
-	u.ReplaceLogger(DebugLogConfig)
+	ReplaceLogger(DebugLogConfig)
 }
 
 // Verbose sets a verbose logger in global.
-func (u printer) VerboseLog() {
+func VerboseLog() {
 	logging = LoggingVerbose
-	u.ReplaceLogger(VerboseLogConfig)
+	ReplaceLogger(VerboseLogConfig)
 }
 
 // IsDebug returns true if a debug logger is used.
-func (u printer) IsDebugLog() bool { return logging == LoggingDebug }
+func IsDebugLog() bool { return logging == LoggingDebug }
 
 // IsVerbose returns true if a verbose logger is used.
-func (u printer) IsVerboseLog() bool { return logging == LoggingVerbose }
+func IsVerboseLog() bool { return logging == LoggingVerbose }
 
 // Logging returns a current logging mode.
-func (u printer) LoggingMode() LoggingMode { return logging }
+func Mode() LoggingMode {
+	return logging
+}
 
-func (u printer) ReplaceLogger(cfg zap.Config) {
+func ReplaceLogger(cfg zap.Config) {
 	l, err := cfg.Build()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to initialize a debug logger: %v\n", err)
 	}
 
-	u.AddCloseFunc(func() { l.Sync() })
-	u.AddCloseFunc(zap.ReplaceGlobals(l))
+	iio.AddCloseFunc(func() { l.Sync() })
+	iio.AddCloseFunc(zap.ReplaceGlobals(l))
 }

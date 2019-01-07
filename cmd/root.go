@@ -1,39 +1,42 @@
-/*
-Add runtime to cobras project type; use runtime.methods and delete cobra.Projects.methods;
-replace cobra.cmds templates with assetsFS var;
-pass runtime.data to cobra.cmds template.Execute functions
-*/
 package cmd
 
 import (
-	"fmt"
-	"github.com/gofunct/stencil/pkg/runtime"
+	"github.com/gofunct/stencil/pkg/config"
+	"github.com/gofunct/stencil/pkg/logging"
 	"github.com/spf13/cobra"
-	"os"
+	"github.com/spf13/viper"
 )
 
-var (
-	rootCmd = &cobra.Command{
-		Use:   "stencil",
-		Short: "A generator for Stencil based Applications",
-		Version: "v0.1.1",
-	}
-	appName string
-	app     *runtime.App
-)
-
-// Execute executes the root command.
-func Execute() {
-	rootCmd.Execute()
+type Command struct {
+	Cobra  *cobra.Command
+	Config *config.Config
 }
+
+var c = new(config.Config)
+var abs string
+var debug bool
 
 func init() {
-	rootCmd.AddCommand(addCmd)
-	rootCmd.AddCommand(initCmd)
-	rootCmd.PersistentFlags().StringVarP(&appName, "app", "a", "", "project name")
+	c.V = viper.New()
+	rootCmd.Cobra.PersistentFlags().StringVarP(&abs, "path", "p", "", "")
+	rootCmd.Cobra.PersistentFlags().BoolVar(&debug, "debug-flags", false, "debug flags")
+	if debug {
+		rootCmd.Cobra.DebugFlags()
+	}
+	logging.AddLoggingFlags(rootCmd.Cobra)
 }
 
-func er(msg interface{}) {
-	fmt.Println("Error:", msg)
-	os.Exit(1)
+var rootCmd = &Command{
+	Config: c,
+	Cobra: &cobra.Command{
+		Use:     "stencil",
+		Aliases: []string{"sten"},
+		Short:   "auto generate applications",
+	},
+}
+
+func Execute() {
+	if err := rootCmd.Cobra.Execute(); err != nil {
+		logging.Er("failed to execute root command", err)
+	}
 }

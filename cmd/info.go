@@ -27,17 +27,22 @@ import (
 )
 
 var (
-	typE string
+	issues  bool
+	roadmap bool
 )
+
 func init() {
-	infoCmd.PersistentFlags().StringVarP(&typE, "type", "t", "issues", "type of info needed")
+	infoCmd.PersistentFlags().BoolVarP(&issues, "issues", "i", false, "info about current issues")
+	infoCmd.PersistentFlags().BoolVarP(&roadmap, "roadmap", "r", false, "info about project roadmap")
+
 }
+
 // infoCmd represents the info command
 var infoCmd = &cobra.Command{
 	Use:   "info",
 	Short: "A brief description of your command",
 	Run: func(cmd *cobra.Command, args []string) {
-		if typE =="issues" {
+		if issues {
 			fmt.Println(`
 Colemans-MacBook-Pro:temp coleman$ stencil init -a test
 panic: runtime error: invalid memory address or nil pointer dereference
@@ -62,15 +67,12 @@ github.com/gofunct/stencil/cmd.Execute()
         /Users/coleman/go/src/github.com/gofunct/stencil/cmd/root.go:27 +0x2d
 main.main()
         /Users/coleman/go/src/github.com/gofunct/stencil/main.go:26 +0x20
-
-
-
 `)
 		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(infoCmd)
+	rootCmd.Cobra.AddCommand(infoCmd)
 
 }

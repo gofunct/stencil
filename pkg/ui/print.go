@@ -1,23 +1,20 @@
 package ui
 
 import (
+	"github.com/gofunct/stencil/pkg/iio"
 	"github.com/kyokomi/emoji"
-	"github.com/pkg/errors"
-	"go.uber.org/zap"
 	"gopkg.in/dixonwille/wlog.v2"
 	"io"
 )
 
 type printer struct {
-	UI       *wlog.ConcurrentUI
-	IO       *IO
-	LogLevel func() zap.Config
-	Closers  []func()
-	Status   status
+	UI      *wlog.ConcurrentUI
+	IO      *iio.IO
+	Closers []func()
 }
 
-func NewPrinter() printer {
-	i := DefaultIO()
+func NewPrinter() *printer {
+	i := iio.DefaultIO()
 	ui := wlog.New(i.In, i.Out, i.Err)
 
 	pui := &wlog.PrefixUI{
@@ -36,7 +33,7 @@ func NewPrinter() printer {
 
 	wlog.AddColor(wlog.Green, wlog.Red, wlog.BrightBlue, wlog.Blue, wlog.Yellow, wlog.BrightMagenta, wlog.Yellow, wlog.BrightGreen, wlog.BrightRed, cui)
 
-	return printer{
+	return &printer{
 		UI: cui,
 		IO: i,
 	}
@@ -63,43 +60,11 @@ func (r *printer) ChangeReaderWriter(reader io.Reader, writer, errorWriter io.Wr
 	r.UI.UI = cui
 }
 
-// checks error and panics
-func (r *printer) CheckErr(msg string, e error) {
-	if e != nil {
-		r.UI.Warn(msg)
-		r.UI.Error(errors.WithStack(e).Error())
-	}
-}
-
 // Close closes printer utilities.
 func (u *printer) Close() {
 	for _, f := range u.Closers {
 		f()
 	}
-}
-
-func (u *printer) Print(msg string) {
-	switch u.Status {
-	case StatusCreate:
-		u.UI.Success("[Created] " + msg)
-	case StatusForce:
-		u.UI.Warn("[FORCED] " + msg)
-	case StatusDelete:
-		u.UI.Warn("[DELETED] " + msg)
-	case StatusExist:
-		u.UI.Info("[EXIST] ")
-	case StatusConflicted:
-		u.UI.Error("[CONFLICTED] " + msg)
-	case StatusIdentical:
-		u.UI.Warn("[IDENTICAL] " + msg)
-	default:
-		u.UI.Warn("[SKIPPED] " + msg)
-	}
-}
-
-func (u *printer) ShouldCreate() bool {
-	_, ok := creatableStatusSet[u.Status]
-	return ok
 }
 
 func (u *printer) AddCloseFunc(f func()) {

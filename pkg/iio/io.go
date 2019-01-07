@@ -1,4 +1,4 @@
-package ui
+package iio
 
 import (
 	"github.com/mattn/go-colorable"
@@ -58,4 +58,17 @@ func DefaultIO() *IO {
 		io.Err = colorable.NewColorableStderr()
 	}
 	return io
+}
+
+var closers []func()
+
+// Close closes cli utilities.
+func Close() {
+	for _, f := range closers {
+		f()
+	}
+}
+
+func AddCloseFunc(f func()) {
+	closers = append(closers, f)
 }

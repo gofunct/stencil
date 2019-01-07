@@ -1,4 +1,4 @@
-package runtime
+package app
 
 import (
 	"github.com/izumin5210/gex"
@@ -74,7 +74,7 @@ func NewAppFromPath(AbsPath string) *App {
 	if fi.Mode()&os.ModeSymlink != 0 {
 		path, err := os.Readlink(AbsPath)
 		if err != nil {
-			er("can't read the destination of symlink: ",  err)
+			er("can't read the destination of symlink: ", err)
 		}
 		AbsPath = path
 	}
