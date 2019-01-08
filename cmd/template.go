@@ -21,28 +21,23 @@
 package cmd
 
 import (
-	"github.com/gofunct/stencil/runtime"
-	"go.uber.org/zap"
+	"fmt"
 
 	"github.com/spf13/cobra"
 )
 
-var (
-	ui = runtime.NewUI()
-)
+// templateCmd represents the template command
+var templateCmd = &cobra.Command{
+	Use:   "template",
+	Short: "A brief description of your command",
+	Run: func(cmd *cobra.Command, args []string) {
+		s := ui.ExecuteTemplate(tmplTest)
+		fmt.Print(s)
+	},
+}
 
 func init() {
-	ui.Unmarshal(ui.Config)
-	ui.BindCobra(root)
+	root.AddCommand(templateCmd)
 }
 
-var root = &cobra.Command{
-	Use:   "stencil",
-	Short: "A brief description of your command",
-}
-
-func Execute() {
-	if err := root.Execute(); err != nil {
-		ui.Z.Fatal("failed to execute command", zap.Error(err))
-	}
-}
+var tmplTest = "{{.ENV.USER}}'s path is {{.ENV.PATH}}"

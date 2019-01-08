@@ -22,27 +22,28 @@ package cmd
 
 import (
 	"github.com/gofunct/stencil/runtime"
-	"go.uber.org/zap"
-
 	"github.com/spf13/cobra"
+	"go.uber.org/zap"
 )
 
-var (
-	ui = runtime.NewUI()
-)
+// debugCmd represents the debug command
+var debugCmd = &cobra.Command{
+	Use:   "debug",
+	Short: "A brief description of your command",
+	PreRun: func(cmd *cobra.Command, args []string) {
+		ui.Z.Debug("\n" + runtime.Green("DEBUG COBRA:"))
+		cmd.DebugFlags()
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		ui.Z.Debug("\n" + runtime.Green("DEBUG VIPER:"))
+		ui.V.Debug()
+	},
+	PostRun: func(cmd *cobra.Command, args []string) {
+		ui.Z.Debug("\n" + runtime.Green("VIPER SETTINGS:"))
+		ui.Z.Debug("ui.V.ALLSettings()", zap.Any("settings", ui.V.AllSettings()))
+	},
+}
 
 func init() {
-	ui.Unmarshal(ui.Config)
-	ui.BindCobra(root)
-}
-
-var root = &cobra.Command{
-	Use:   "stencil",
-	Short: "A brief description of your command",
-}
-
-func Execute() {
-	if err := root.Execute(); err != nil {
-		ui.Z.Fatal("failed to execute command", zap.Error(err))
-	}
+	root.AddCommand(debugCmd)
 }

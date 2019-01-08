@@ -1,6 +1,0 @@
-# Stencil Runtime
-
-## Package Scope
-
-- [ ]
-- [ ]

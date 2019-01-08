@@ -1,8 +1,8 @@
-package logging
+package runtime
 
 import (
 	"fmt"
-	"github.com/gofunct/stencil/pkg/iio"
+	"github.com/gofunct/iio"
 	"os"
 	"time"
 

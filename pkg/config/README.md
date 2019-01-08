@@ -1,6 +1,0 @@
-# Package Stencil
-
-## Scope
-
-- [ ]
-- [ ]
