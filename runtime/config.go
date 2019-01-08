@@ -68,7 +68,6 @@ func (u *UI) InitConfig() {
 	u.V.BindEnv("GOPATH")
 	u.V.BindEnv("USER")
 	u.V.BindEnv("SHELL")
-	u.V.BindEnv("PATH")
 	src := filepath.Join(u.V.GetString("GOPATH"), "src")
 	u.V.Set("gosrc", src)
 	bin := filepath.Join(u.V.GetString("GOPATH"), "bin")
@@ -81,25 +80,25 @@ func (u *UI) InitConfig() {
 	u.V.Set("download", "go get "+imp)
 
 	if err := u.V.Unmarshal(u.Config); err != nil {
-		u.Z.Fatal("failed to unmarshal config", zap.Error(err))
+		u.Z.Fatal(Red("failed to unmarshal config"), zap.Error(err))
 	}
 	u.WriteConfig()
 	u.V.WatchConfig()
 	u.V.OnConfigChange(func(e fsnotify.Event) {
-		u.Z.Info("Config file changed:", zap.String("event", e.Name))
+		u.Z.Debug(Blue("Config file changed:"), zap.String("event", e.Name), zap.String("stringer", e.String()))
 		u.WriteConfig()
 	})
 }
 
 func (u *UI) Unmarshal(cfg *Config) {
 	if err := u.V.Unmarshal(cfg); err != nil {
-		u.Z.Fatal("failed to unmarshal config", zap.Error(err))
+		u.Z.Fatal(Red("failed to unmarshal config"), zap.Error(err))
 	}
 }
 
 func (u *UI) WriteConfig() {
 	u.V.ReadInConfig()
 	if err := u.V.WriteConfig(); err != nil {
-		u.Z.Fatal("faied to write config", zap.Error(err))
+		u.Z.Fatal(Red("faied to write config"), zap.Error(err))
 	}
 }

@@ -44,30 +44,28 @@ var (
 )
 
 // AddLoggingFlags sets "--debug" and "--verbose" flags to the given *cobra.Command instance.
-func AddLoggingFlags(cmd *cobra.Command) {
+func (u *UI) AddLoggingFlags(cmd *cobra.Command) {
 	var (
 		debugEnabled, verboseEnabled bool
 	)
-
-	cmd.PersistentFlags().BoolVar(
-		&debugEnabled,
-		"debug",
-		false,
-		fmt.Sprintf("Debug level output"),
-	)
-	cmd.PersistentFlags().BoolVarP(
-		&verboseEnabled,
-		"verbose",
-		"v",
-		false,
-		fmt.Sprintf("Verbose level output"),
-	)
+	cmd.PersistentFlags().BoolVar(&debugEnabled, "debug", false, fmt.Sprintf("Debug level output"))
+	cmd.PersistentFlags().BoolVarP(&verboseEnabled, "verbose", "v", true, fmt.Sprintf("Verbose loggingoutput"))
 
 	cobra.OnInitialize(func() {
 		switch {
 		case debugEnabled:
+			u.Z.With(
+				zap.String("exec", cmd.Name()),
+				zap.String("version", cmd.Version),
+				zap.Bool("runnable", cmd.Runnable()))
 			Debug()
 		case verboseEnabled:
+			u.Z.With(
+				zap.String("exec", cmd.Name()),
+				zap.String("version", cmd.Version),
+				zap.Bool("runnable", cmd.Runnable()),
+				zap.Any("meta", cmd.Annotations),
+				zap.Bool("is-root", cmd.HasSubCommands()))
 			VerboseLog()
 		}
 	})

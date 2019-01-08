@@ -18,39 +18,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package cmd
+package sh
 
 import (
-	"github.com/gofunct/stencil/cmd/debug"
-	"github.com/gofunct/stencil/cmd/gen"
-	"github.com/gofunct/stencil/cmd/sh"
-	"go.uber.org/zap"
+	"fmt"
 
 	"github.com/spf13/cobra"
 )
 
+// dockerCmd represents the docker command
+var dockerCmd = &cobra.Command{
+	Use:   "docker",
+	Short: "A brief description of your command",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("docker called")
+	},
+}
+
 func init() {
-	API.AddCommand(
-		gen.Root,
-		debug.Root,
-		sh.Root,
-	)
-}
-
-var API = &cobra.Command{
-	Use:   "stencil",
-	Short: "a super amazing golang development utility",
-	Long: `
- dP"8   d8                            ,e, 888
-C8b Y  d88    ,e e,  888 8e   e88'888  "  888
- Y8b  d88888 d88 88b 888 88b d888  '8 888 888
-b Y8D  888   888   , 888 888 Y888   , 888 888
-8edP   888    "YeeP" 888 888  "88,e8' 888 888
-`,
-}
-
-func Execute() {
-	if err := API.Execute(); err != nil {
-		zap.L().Fatal("failed to execute command", zap.Error(err))
-	}
+	Root.AddCommand(dockerCmd)
 }

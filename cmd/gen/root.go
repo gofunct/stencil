@@ -18,26 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package cmd
+package gen
 
 import (
-	"fmt"
-
+	"github.com/gofunct/stencil/runtime"
 	"github.com/spf13/cobra"
 )
 
+var (
+	ui = new(runtime.UI)
+)
+
 // templateCmd represents the template command
-var templateCmd = &cobra.Command{
-	Use:   "template",
-	Short: "A brief description of your command",
-	Run: func(cmd *cobra.Command, args []string) {
-		s := ui.ExecuteTemplate(tmplTest)
-		fmt.Print(s)
+var Root = &cobra.Command{
+	Use:   "gen",
+	Short: "parse template files with the provided config to generate boilerplate",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		ui = runtime.NewUI()
+		ui.Unmarshal(ui.Config)
+		ui.BindCobra(cmd)
 	},
 }
-
-func init() {
-	root.AddCommand(templateCmd)
-}
-
-var tmplTest = "{{.ENV.USER}}'s path is {{.ENV.PATH}}"

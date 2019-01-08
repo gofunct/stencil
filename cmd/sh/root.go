@@ -18,39 +18,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package cmd
+package sh
 
 import (
-	"github.com/gofunct/stencil/cmd/debug"
-	"github.com/gofunct/stencil/cmd/gen"
-	"github.com/gofunct/stencil/cmd/sh"
-	"go.uber.org/zap"
-
+	"github.com/gofunct/stencil/runtime"
 	"github.com/spf13/cobra"
 )
 
-func init() {
-	API.AddCommand(
-		gen.Root,
-		debug.Root,
-		sh.Root,
-	)
-}
+var ui = new(runtime.UI)
 
-var API = &cobra.Command{
-	Use:   "stencil",
-	Short: "a super amazing golang development utility",
-	Long: `
- dP"8   d8                            ,e, 888
-C8b Y  d88    ,e e,  888 8e   e88'888  "  888
- Y8b  d88888 d88 88b 888 88b d888  '8 888 888
-b Y8D  888   888   , 888 888 Y888   , 888 888
-8edP   888    "YeeP" 888 888  "88,e8' 888 888
-`,
-}
-
-func Execute() {
-	if err := API.Execute(); err != nil {
-		zap.L().Fatal("failed to execute command", zap.Error(err))
-	}
+// shCmd represents the sh command
+var Root = &cobra.Command{
+	Use:   "sh",
+	Short: "A shell scripting utility for essential command line tools",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		ui = runtime.NewUI()
+		ui.Unmarshal(ui.Config)
+		ui.BindCobra(cmd)
+	},
 }

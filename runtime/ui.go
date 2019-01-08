@@ -65,6 +65,7 @@ func (u *UI) BindCobra(cmd *cobra.Command) {
 	}
 	cmd.Annotations = merge()
 	cmd.Version = u.V.GetString("version")
+	u.AddLoggingFlags(cmd)
 }
 
 func (u *UI) Debug() {

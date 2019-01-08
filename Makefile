@@ -91,8 +91,12 @@ test: ## run all project tests
 cover: ## run test coverage
 	go test $(GO_TEST_FLAGS) $(GO_COVER_FLAGS) ./...
 
-format: ## go format entire directory
+fmt: ## go format entire directory
 	go fmt ./...
+
+errcheck:
+	errcheck ./...
+
 
 help: ## this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort

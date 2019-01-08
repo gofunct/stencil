@@ -18,32 +18,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package cmd
+package gen
 
 import (
-	"github.com/gofunct/stencil/runtime"
+	"fmt"
+
 	"github.com/spf13/cobra"
-	"go.uber.org/zap"
 )
 
-// debugCmd represents the debug command
-var debugCmd = &cobra.Command{
-	Use:   "debug",
+// initCmd represents the init command
+var initCmd = &cobra.Command{
+	Use:   "init",
 	Short: "A brief description of your command",
-	PreRun: func(cmd *cobra.Command, args []string) {
-		ui.Z.Debug("\n" + runtime.Green("DEBUG COBRA:"))
-		cmd.DebugFlags()
-	},
 	Run: func(cmd *cobra.Command, args []string) {
-		ui.Z.Debug("\n" + runtime.Green("DEBUG VIPER:"))
-		ui.V.Debug()
-	},
-	PostRun: func(cmd *cobra.Command, args []string) {
-		ui.Z.Debug("\n" + runtime.Green("VIPER SETTINGS:"))
-		ui.Z.Debug("ui.V.ALLSettings()", zap.Any("settings", ui.V.AllSettings()))
+		fmt.Println("init called")
 	},
 }
 
 func init() {
-	root.AddCommand(debugCmd)
+	Root.AddCommand(initCmd)
 }
