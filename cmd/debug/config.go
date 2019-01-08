@@ -28,8 +28,8 @@ import (
 
 // configCmd represents the config command
 var configCmd = &cobra.Command{
-	Use:   "config",
-	Short: "A brief description of your command",
+	Use:   runtime.Blue("config"),
+	Short: runtime.Blue("A brief description of your command"),
 	Run: func(cmd *cobra.Command, args []string) {
 		ui.Z.Debug((runtime.Blue("debugging current config")), zap.String("command", cmd.Name()), zap.Bool("runnable", cmd.Runnable()))
 		ui.V.Debug()

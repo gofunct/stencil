@@ -22,14 +22,15 @@ package gen
 
 import (
 	"fmt"
+	"github.com/gofunct/stencil/runtime"
 
 	"github.com/spf13/cobra"
 )
 
 // longCmd represents the long command
 var snipCmd = &cobra.Command{
-	Use:   "snip",
-	Short: "generate a file by passing a template to cmd.Long\n this is ideal for short snippets and scripts",
+	Use:   runtime.Blue("snip"),
+	Short: runtime.Blue("generate a file by passing a template to cmd.Long\n this is ideal for short snippets and scripts"),
 	Long: `
 {{.ENV.USER}}'s gopath is {{.ENV.GOPATH}}\n
 `,

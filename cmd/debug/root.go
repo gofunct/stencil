@@ -29,13 +29,11 @@ var ui = new(runtime.UI)
 
 // debugCmd represents the debug command
 var Root = &cobra.Command{
-	Use:   "debug",
-	Short: "debug is used to output all debugging information for flags and config to stdout",
+	Use:   runtime.Blue("debug"),
+	Short: runtime.Blue("debug is used to output all debugging information for flags and config to stdout"),
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		ui = runtime.NewUI()
 		ui.Unmarshal(ui.Config)
 		ui.BindCobra(cmd)
 	},
 }
-
-func Execute() {}

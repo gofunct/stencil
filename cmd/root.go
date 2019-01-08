@@ -24,33 +24,40 @@ import (
 	"github.com/gofunct/stencil/cmd/debug"
 	"github.com/gofunct/stencil/cmd/gen"
 	"github.com/gofunct/stencil/cmd/sh"
+	"github.com/gofunct/stencil/runtime"
 	"go.uber.org/zap"
 
 	"github.com/spf13/cobra"
 )
 
 func init() {
-	API.AddCommand(
+	api.AddCommand(
 		gen.Root,
 		debug.Root,
 		sh.Root,
+		cheatCmd,
 	)
 }
 
-var API = &cobra.Command{
-	Use:   "stencil",
-	Short: "a super amazing golang development utility",
-	Long: `
+var api = &cobra.Command{
+	Use:   runtime.Blue("stencil"),
+	Short: runtime.Blue("a super amazing golang development utility"),
+	Long: runtime.Blue(`
  dP"8   d8                            ,e, 888
 C8b Y  d88    ,e e,  888 8e   e88'888  "  888
  Y8b  d88888 d88 88b 888 88b d888  '8 888 888
 b Y8D  888   888   , 888 888 Y888   , 888 888
 8edP   888    "YeeP" 888 888  "88,e8' 888 888
-`,
+
+Author: Coleman Word
+Download: "go get github.com/gofunct/stencil"
+License: MIT
+Help: make help, stencil -h
+`),
 }
 
 func Execute() {
-	if err := API.Execute(); err != nil {
+	if err := api.Execute(); err != nil {
 		zap.L().Fatal("failed to execute command", zap.Error(err))
 	}
 }

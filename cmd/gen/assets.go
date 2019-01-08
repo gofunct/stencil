@@ -21,6 +21,7 @@
 package gen
 
 import (
+	"github.com/gofunct/stencil/runtime"
 	"github.com/jessevdk/go-assets"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
@@ -41,8 +42,8 @@ func init() {
 
 // assetsCmd represents the assets command
 var asset = &cobra.Command{
-	Use:   "asset",
-	Short: "An asset builder program to generate embedded assets using go-assets",
+	Use:   runtime.Blue("asset"),
+	Short: runtime.Blue("An asset builder program to generate embedded assets using go-assets"),
 	Run: func(cmd *cobra.Command, args []string) {
 		g := &assets.Generator{
 			PackageName:  packageName,

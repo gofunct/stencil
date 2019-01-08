@@ -18,24 +18,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package debug
+package cmd
 
 import (
+	"fmt"
 	"github.com/gofunct/stencil/runtime"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
+	"os/exec"
 )
 
-// flagsCmd represents the flags command
-var flagsCmd = &cobra.Command{
-	Use:   runtime.Blue("flags"),
-	Short: runtime.Blue("A brief description of your command"),
-	Run: func(cmd *cobra.Command, args []string) {
-		ui.Z.Debug(runtime.Blue("debugging current command flags"), zap.String("command", cmd.Name()), zap.Any("runnable", cmd.Runnable()))
-		cmd.DebugFlags()
-	},
-}
+// docsCmd represents the docs command
+var cheatCmd = &cobra.Command{
+	Use:   "cheat",
+	Short: "the stencil cheat sheet command",
+	Long: runtime.Blue(`
 
-func init() {
-	Root.AddCommand(flagsCmd)
+`),
+	Run: func(cmd *cobra.Command, args []string) {
+		out, err := exec.Command("make", "help").Output()
+		if err != nil {
+			zap.L().Fatal("")
+		}
+		fmt.Println(string(out))
+	},
 }

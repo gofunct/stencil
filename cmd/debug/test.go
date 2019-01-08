@@ -22,13 +22,14 @@ package debug
 
 import (
 	"fmt"
+	"github.com/gofunct/stencil/runtime"
 	"github.com/spf13/cobra"
 )
 
 // testCmd represents the test command
 var testCmd = &cobra.Command{
-	Use:   "test",
-	Short: "test is used to test stencil functionality",
+	Use:   runtime.Blue("test"),
+	Short: runtime.Blue("test is used to test stencil functionality"),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("")
 	},

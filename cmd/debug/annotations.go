@@ -28,9 +28,9 @@ import (
 
 // annotationsCmd represents the annotations command
 var annotationsCmd = &cobra.Command{
-	Use:     "annotations",
+	Use:     runtime.Blue("annotations"),
 	Aliases: []string{"a"},
-	Short:   "the stored annotations for this command",
+	Short:   runtime.Blue("the stored annotations for this command"),
 	Run: func(cmd *cobra.Command, args []string) {
 		ui.Z.Debug("\n" + runtime.Blue(cmd.Name()+".Annotations:"))
 		ui.Z.Debug(cmd.Name(), zap.Any("annotations", cmd.Annotations))

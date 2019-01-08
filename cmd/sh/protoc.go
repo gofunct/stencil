@@ -22,14 +22,15 @@ package sh
 
 import (
 	"fmt"
+	"github.com/gofunct/stencil/runtime"
 
 	"github.com/spf13/cobra"
 )
 
 // protocCmd represents the protoc command
 var protocCmd = &cobra.Command{
-	Use:   "protoc",
-	Short: "A brief description of your command",
+	Use:   runtime.Blue("protoc"),
+	Short: runtime.Blue("A brief description of your command"),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("protoc called")
 	},

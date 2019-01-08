@@ -22,14 +22,15 @@ package sh
 
 import (
 	"fmt"
+	"github.com/gofunct/stencil/runtime"
 
 	"github.com/spf13/cobra"
 )
 
 // dockerCmd represents the docker command
 var dockerCmd = &cobra.Command{
-	Use:   "docker",
-	Short: "A brief description of your command",
+	Use:   runtime.Blue("docker"),
+	Short: runtime.Blue("A brief description of your command"),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("docker called")
 	},

@@ -22,14 +22,15 @@ package sh
 
 import (
 	"fmt"
+	"github.com/gofunct/stencil/runtime"
 
 	"github.com/spf13/cobra"
 )
 
 // gitCmd represents the git command
 var gitCmd = &cobra.Command{
-	Use:   "git",
-	Short: "A brief description of your command",
+	Use:   runtime.Blue("git"),
+	Short: runtime.Blue("A brief description of your command"),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("git called")
 	},

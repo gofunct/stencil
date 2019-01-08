@@ -29,8 +29,8 @@ var ui = new(runtime.UI)
 
 // shCmd represents the sh command
 var Root = &cobra.Command{
-	Use:   "sh",
-	Short: "A shell scripting utility for essential command line tools",
+	Use:   runtime.Blue("sh"),
+	Short: runtime.Blue("A shell scripting utility for essential command line tools"),
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		ui = runtime.NewUI()
 		ui.Unmarshal(ui.Config)

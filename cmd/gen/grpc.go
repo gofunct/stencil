@@ -22,14 +22,15 @@ package gen
 
 import (
 	"fmt"
+	"github.com/gofunct/stencil/runtime"
 
 	"github.com/spf13/cobra"
 )
 
 // grpcCmd represents the grpc command
 var grpcCmd = &cobra.Command{
-	Use:   "grpc",
-	Short: "A brief description of your command",
+	Use:   runtime.Blue("grpc"),
+	Short: runtime.Blue("A brief description of your command"),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("grpc called")
 	},

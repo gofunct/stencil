@@ -28,8 +28,8 @@ import (
 
 // settingsCmd represents the settings command
 var settingsCmd = &cobra.Command{
-	Use:   "settings",
-	Short: "A brief description of your command",
+	Use:   runtime.Blue("settings"),
+	Short: runtime.Blue("A brief description of your command"),
 	Run: func(cmd *cobra.Command, args []string) {
 		ui.Z.Debug(runtime.Blue("printing all current config settings"), zap.String("command", cmd.Name()), zap.Bool("runnable", cmd.Runnable()), zap.Any(cmd.Name()+"_settings", ui.V.AllSettings()))
 	},

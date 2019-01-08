@@ -22,14 +22,15 @@ package gen
 
 import (
 	"fmt"
+	"github.com/gofunct/stencil/runtime"
 
 	"github.com/spf13/cobra"
 )
 
 // certsCmd represents the certs command
 var certsCmd = &cobra.Command{
-	Use:   "certs",
-	Short: "A brief description of your command",
+	Use:   runtime.Blue("certs"),
+	Short: runtime.Blue("A brief description of your command"),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("certs called")
 	},

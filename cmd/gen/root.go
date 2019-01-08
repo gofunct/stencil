@@ -31,8 +31,8 @@ var (
 
 // templateCmd represents the template command
 var Root = &cobra.Command{
-	Use:   "gen",
-	Short: "parse template files with the provided config to generate boilerplate",
+	Use:   runtime.Blue("gen"),
+	Short: runtime.Blue("parse template files with the provided config to generate boilerplate"),
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		ui = runtime.NewUI()
 		ui.Unmarshal(ui.Config)
