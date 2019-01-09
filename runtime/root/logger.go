@@ -1,8 +1,8 @@
-package runtime
+package root
 
 import (
 	"fmt"
-	"github.com/gofunct/iio"
+	"github.com/gofunct/stencil/runtime/ui"
 	"os"
 	"time"
 
@@ -44,43 +44,43 @@ var (
 )
 
 // AddLoggingFlags sets "--debug" and "--verbose" flags to the given *cobra.Command instance.
-func (u *UI) AddLoggingFlags(cmd *cobra.Command) {
+func (s *scriptr) AddLoggingFlags(cmd *cobra.Command) {
 	var (
 		debugEnabled, verboseEnabled bool
 	)
-	cmd.PersistentFlags().BoolVar(&debugEnabled, "debug", false, fmt.Sprintf("Debug level output"))
-	cmd.PersistentFlags().BoolVarP(&verboseEnabled, "verbose", "v", true, fmt.Sprintf("Verbose loggingoutput"))
+	cmd.PersistentFlags().BoolVar(&debugEnabled, ui.Blue("debug"), false, ui.Blue("Debug level output"))
+	cmd.PersistentFlags().BoolVarP(&verboseEnabled, "verbose", "v", true, ui.Blue("Verbose loggingoutput"))
 
 	cobra.OnInitialize(func() {
 		switch {
 		case debugEnabled:
-			u.Z.With(
+			s.Z.With(
 				zap.String("exec", cmd.Name()),
 				zap.String("version", cmd.Version),
 				zap.Bool("runnable", cmd.Runnable()))
-			Debug()
+			s.Debug()
 		case verboseEnabled:
-			u.Z.With(
+			s.Z.With(
 				zap.String("exec", cmd.Name()),
 				zap.String("version", cmd.Version),
 				zap.Bool("runnable", cmd.Runnable()),
 				zap.Any("meta", cmd.Annotations),
 				zap.Bool("is-root", cmd.HasSubCommands()))
-			VerboseLog()
+			s.VerboseLog()
 		}
 	})
 }
 
 // Debug sets a debug logger in global.
-func Debug() {
+func (s *scriptr) Debug() {
 	logging = LoggingDebug
-	ReplaceLogger(DebugLogConfig)
+	s.ReplaceLoggerConfig(DebugLogConfig)
 }
 
 // Verbose sets a verbose logger in global.
-func VerboseLog() {
+func (s *scriptr) VerboseLog() {
 	logging = LoggingVerbose
-	ReplaceLogger(VerboseLogConfig)
+	s.ReplaceLoggerConfig(VerboseLogConfig)
 }
 
 // IsDebug returns true if a debug logger is used.
@@ -94,12 +94,28 @@ func Mode() LoggingMode {
 	return logging
 }
 
-func ReplaceLogger(cfg zap.Config) {
+func (s *scriptr) ReplaceLoggerConfig(cfg zap.Config) {
 	l, err := cfg.Build()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to initialize a debug logger: %v\n", err)
 	}
 
-	iio.AddCloseFunc(func() { l.Sync() })
-	iio.AddCloseFunc(zap.ReplaceGlobals(l))
+	s.AddCloser(func() { l.Sync() })
+	s.AddCloser(zap.ReplaceGlobals(l))
+}
+
+func (s *scriptr) DebugC(msg string) {
+	s.Z.Debug(ui.Cyan(msg))
+}
+
+func (s *scriptr) FatalC(msg string, err error) {
+	s.Z.Fatal(ui.Red(msg), zap.Error(err))
+}
+
+func (s *scriptr) InfoC(msg string, err error) {
+	s.Z.Info(ui.Blue(msg), zap.Error(err))
+}
+
+func (s *scriptr) WarnC(args ...interface{}) {
+		s.Z.Warn(ui.Yello(args))
 }

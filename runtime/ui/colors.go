@@ -1,4 +1,4 @@
-package runtime
+package ui
 
 import (
 	"github.com/fatih/color"
@@ -30,4 +30,8 @@ func Blue(args ...interface{}) string {
 
 func Cyan(args ...interface{}) string {
 	return color.CyanString("%s", args)
+}
+
+func Yello(args ...interface{}) string {
+	return color.YellowString("%s", args)
 }
