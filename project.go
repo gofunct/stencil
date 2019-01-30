@@ -77,7 +77,7 @@ func (project *Project) reset() {
 
 func (project *Project) mustTask(name string) (*Project, *Job, string) {
 	if name == "" {
-		panic("Cannot get task for empty string")
+		panic("Cannot get job for empty string")
 	}
 
 	proj := project
@@ -122,14 +122,14 @@ func (project *Project) mustTask(name string) (*Project, *Job, string) {
 
 	task := proj.Jobs[taskName]
 	if task == nil {
-		print.Panic("ERR", `"%s" task is not defined`+"\n", name)
+		print.Panic("ERR", `"%s" job is not defined`+"\n", name)
 	}
 	return proj, task, taskName
 }
 
 func (project *Project) debounce(task *Job) bool {
 	if task.Name == "" {
-		panic("task name should not be empty")
+		panic("job name should not be empty")
 	}
 	debounce := task.debounce
 	if debounce == 0 {
@@ -167,7 +167,7 @@ func (project *Project) runTask(depName string, parentName string, e *watcher.Fi
 	proj, _, taskName := project.mustTask(depName)
 
 	if proj == nil {
-		return fmt.Errorf("Project was not loaded for \"%s\" task", parentName)
+		return fmt.Errorf("Project was not loaded for \"%s\" job", parentName)
 	}
 	return proj.runWithEvent(taskName, parentName+">"+depName, e)
 }
