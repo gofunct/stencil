@@ -1,5 +1,0 @@
-package root
-
-import (
-	"context"
-)

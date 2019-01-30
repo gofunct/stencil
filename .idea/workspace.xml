@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f4731192-b4c9-450e-8a36-096c818ecdb0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/cheat.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/debug/annotations.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/debug/config.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/debug/flags.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/debug/root.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/debug/settings.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/debug/test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/gen/assets.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/gen/certs.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/gen/grpc.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/gen/init.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/gen/root.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/gen/snip.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/root.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/sh/docker.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/sh/gcloud.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/sh/git.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/sh/protoc.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/sh/root.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/api.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/config/config.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/config/interface.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/config/types.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/ctx/interface.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/debug.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/encode.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/flags.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs/afero.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs/afero_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs/assets.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs/assets_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs/fs.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs/path.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs/path_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs/project.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs/project_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/fs/providers.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/interface.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/io.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/providers.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/root/config.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/root/debuger.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/root/interface.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/root/io.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/root/logger.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/root/providers.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/root/root_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/scripter.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/scripts/dev.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/scripts/interface.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/scripts/priv.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/scripts/provider.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/scripts/providers.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/scripts/scripts.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/scripts/sdk.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/settings.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/ui/colors.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/ui/emojis.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/ui/input.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/ui/ui.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools.go" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_5.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="120">
+                <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Makefile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="26" column="59" selection-start-line="26" selection-start-column="57" selection-end-line="26" selection-end-column="59" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>findcmddir</find>
+      <find>abspath</find>
+      <find>can't create project with blank Name</find>
+      <find>Cobra</find>
+      <find>er</find>
+      <find>Project</find>
+      <find>addclosefunc</find>
+      <find>l.Zap</find>
+      <find>r.Config</find>
+      <find>package runtime</find>
+      <find>Afero</find>
+      <find>CheckFor</find>
+      <find>mapstructure</find>
+      <find>p</find>
+      <find>Logger</find>
+      <find>package gogui</find>
+      <find>%s\n</find>
+      <find>runtime.Red(</find>
+      <find>c.Context</find>
+      <find>C</find>
+      <find>u</find>
+      <find>Q</find>
+      <find>Config</find>
+      <find>u.V</find>
+      <find>c.Z</find>
+      <find>configX</find>
+      <find>IOContainer</find>
+      <find>ioContainer</find>
+      <find>Picker</find>
+      <find>Flagger</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>b</replace>
+      <replace>r</replace>
+      <replace>TmplFS</replace>
+      <replace>u.IO.Out</replace>
+      <replace>io</replace>
+      <replace>printer</replace>
+      <replace>UI</replace>
+      <replace>r.UI</replace>
+      <replace>a</replace>
+      <replace>Stencil</replace>
+      <replace>App</replace>
+      <replace>l</replace>
+      <replace>v</replace>
+      <replace>package fs</replace>
+      <replace>Check</replace>
+      <replace>FindAll</replace>
+      <replace>stencil</replace>
+      <replace>package runtime</replace>
+      <replace>%s</replace>
+      <replace>ui</replace>
+      <replace>q</replace>
+      <replace>Object</replace>
+      <replace>c.v</replace>
+      <replace>c</replace>
+      <replace>zap.L()</replace>
+      <replace>configService</replace>
+      <replace>ioContainer</replace>
+      <replace>Endpoint</replace>
+      <replace>Flagger</replace>
+      <replace>FlagValue</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/vfs</dir>
+      <dir>$PROJECT_DIR$/project</dir>
+      <dir>$PROJECT_DIR$/survey</dir>
+      <dir>$PROJECT_DIR$</dir>
+      <dir>$PROJECT_DIR$/pkg/fs</dir>
+      <dir>$PROJECT_DIR$/pkg/runtime</dir>
+    </dirStrings>
+  </component>
+  <component name="GOROOT" path="/usr/local/Cellar/go/1.11.4/libexec" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/cmd/debug/config.go" />
+        <option value="$PROJECT_DIR$/cmd/docs/docs.go" />
+        <option value="$PROJECT_DIR$/docs.go" />
+        <option value="$PROJECT_DIR$/cmd/debug/root.go" />
+        <option value="$PROJECT_DIR$/cmd/docs.go" />
+        <option value="$PROJECT_DIR$/cmd/root.go" />
+        <option value="$PROJECT_DIR$/cmd/cheat.go" />
+        <option value="$PROJECT_DIR$/runtime/colors.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/priv.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/validate.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/dev.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/internal.go" />
+        <option value="$PROJECT_DIR$/runtime/ui/providers.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/init.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/tmpl.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/sdk.go" />
+        <option value="$PROJECT_DIR$/runtime/config/ask.go" />
+        <option value="$PROJECT_DIR$/runtime/ui/init.go" />
+        <option value="$PROJECT_DIR$/runtime/ui/ui.go" />
+        <option value="$PROJECT_DIR$/runtime/config/types.go" />
+        <option value="$PROJECT_DIR$/runtime/config/config.go" />
+        <option value="$PROJECT_DIR$/runtime/config/interface.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/logging.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/interface.go" />
+        <option value="$PROJECT_DIR$/runtime/ctx/interface.go" />
+        <option value="$PROJECT_DIR$/runtime/root/types.go" />
+        <option value="$PROJECT_DIR$/runtime/types.go" />
+        <option value="$PROJECT_DIR$/runtime/root/logger.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/provider.go" />
+        <option value="$PROJECT_DIR$/runtime/root/config.go" />
+        <option value="$PROJECT_DIR$/runtime/root/debuger.go" />
+        <option value="$PROJECT_DIR$/runtime/root/root_test.go" />
+        <option value="$PROJECT_DIR$/runtime/root/root.go" />
+        <option value="$PROJECT_DIR$/runtime/root/interface.go" />
+        <option value="$PROJECT_DIR$/runtime/root/io.go" />
+        <option value="$PROJECT_DIR$/runtime/root/providers.go" />
+        <option value="$PROJECT_DIR$/runtime/settings.go" />
+        <option value="$PROJECT_DIR$/runtime/flags.go" />
+        <option value="$PROJECT_DIR$/runtime/debug.go" />
+        <option value="$PROJECT_DIR$/runtime/io.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/commands.go" />
+        <option value="$PROJECT_DIR$/runtime/scripts/scripts.go" />
+        <option value="$PROJECT_DIR$/runtime/scripter.go" />
+        <option value="$PROJECT_DIR$/runtime/encode.go" />
+        <option value="$PROJECT_DIR$/runtime/interface.go" />
+        <option value="$PROJECT_DIR$/runtime/api.go" />
+        <option value="$PROJECT_DIR$/runtime/fs.go" />
+        <option value="$PROJECT_DIR$/runtime/providers.go" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_5.md" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/Makefile" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="26" />
+    <option name="width" value="1680" />
+    <option name="height" value="947" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="stencil" type="b2602c69:ProjectViewProjectNode" />
+              <item name="stencil" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TEXT" />
+    <property name="configurable.Global.GOPATH.is.expanded" value="true" />
+    <property name="configurable.Project.GOPATH.is.expanded" value="true" />
+    <property name="go.gopath.indexing.explicitly.defined" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.vendoring.notification.had.been.shown" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/runtime" />
+      <recent name="$PROJECT_DIR$/runtime/root" />
+      <recent name="$PROJECT_DIR$/runtime/fs" />
+      <recent name="$PROJECT_DIR$/runtime/scripts" />
+      <recent name="$PROJECT_DIR$/runtime/ui" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/runtime/root" />
+      <recent name="$PROJECT_DIR$/runtime" />
+      <recent name="$PROJECT_DIR$/runtime/ui" />
+      <recent name="$PROJECT_DIR$/runtime/config" />
+      <recent name="$PROJECT_DIR$/runtime/scripts" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="26" width="1680" height="947" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26495728" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32932693" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Copy/Paste" order="3" />
+      <window_info anchor="right" id="PlantUML" order="4" />
+      <window_info anchor="right" id="Database" order="5" />
+      <window_info anchor="right" id="make" order="6" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/wmenu.v4" />
+    </ignored-roots>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/priv.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/validate.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/logging_test.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/ui/providers.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/providers.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/fs/providers.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/ui/init.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="10" selection-start-column="10" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/ui/ui.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="10" selection-start-column="10" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/ui/input.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="62" column="1" lean-forward="true" selection-start-line="8" selection-end-line="62" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/ui/colors.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="35" column="30" lean-forward="true" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/ui/emojis.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/dev.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/tmpl.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/config/ask.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/config/config.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/config/interface.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/init.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/config/types.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/ctx/interface.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/root/logging.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/internal.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="644">
+          <caret line="43" selection-start-line="43" selection-end-line="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/root/config.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1410">
+          <caret line="94" column="22" selection-start-line="94" selection-start-column="22" selection-end-line="94" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/root/debuger.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/root/root_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/root/interface.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="45" column="1" selection-start-line="45" selection-start-column="1" selection-end-line="45" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/root/root.go" />
+    <entry file="file://$PROJECT_DIR$/runtime/root/logger.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/root/io.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/github.com/spf13/viper/flags.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/scripts.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/sdk.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="64" column="11" selection-start-line="64" selection-start-column="10" selection-end-line="64" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/debug.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/flags.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="57" lean-forward="true" selection-start-line="6" selection-start-column="57" selection-end-line="6" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/providers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="38" column="23" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/encode.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/api.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/settings.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/scripter.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="43" column="1" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/provider.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/interface.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="13" column="1" selection-start-line="10" selection-end-line="13" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/sh/docker.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/sh/git.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/interface.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/scripts/commands.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/root/providers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="478">
+          <caret line="72" selection-start-line="72" selection-end-line="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/fs.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/types.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime/io.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="5145">
+            <caret line="343" selection-end-line="343" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_5.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="120">
+            <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="26" column="59" selection-start-line="26" selection-start-column="57" selection-end-line="26" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
