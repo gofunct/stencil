@@ -14,6 +14,7 @@ var RootCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(loadCmd)
 	RootCmd.AddCommand(initCmd)
+	RootCmd.AddCommand(watchCmd)
 }
 
 // Run adds all child commands to the root command sets flags appropriately.

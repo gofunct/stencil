@@ -17,7 +17,8 @@ func init() {
 
 // getCmd represents the get command
 var loadCmd = &cobra.Command{
-	Use: "load",
+	Use:   "load",
+	Short: "Intelligently download files or directories from a remote source",
 	Run: func(cmd *cobra.Command, args []string) {
 		fs.Load(loadSrc, loadDst)
 	},
