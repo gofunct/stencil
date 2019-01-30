@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/gofunct/stencil"
+	"github.com/gofunct/stencil/pkg/filter"
+	"github.com/mgutz/str"
 )
 
 func tasks(p *stencil.Project) {
@@ -10,15 +12,16 @@ func tasks(p *stencil.Project) {
 		c.Run("go test")
 	})
 
-	p.Func("test", stencil.Series{"build"}, func(c *stencil.Context) {
+	p.Func("test", stencil.S{"build"}, func(c *stencil.Context) {
 		c.Run("go test")
 	})
 
-	p.Func("dist", stencil.Series{"test", "lint"}, nil)
+	p.Func("dist", stencil.S{"test", "lint"}, nil)
 
 	p.Func("install", nil, func(c *stencil.Context) {
 		c.Run("go get github.com/golang/lint/golint")
-		c.Run("go get github.com/robertkrimen/godocdown")
+		// Run("go get github.com/mgutz/goa")
+		c.Run("go get github.com/robertkrimen/godocdown/godocdown")
 	})
 
 	p.Func("lint", nil, func(c *stencil.Context) {
@@ -27,8 +30,17 @@ func tasks(p *stencil.Project) {
 		c.Run("go vet .")
 	})
 
+	p.Func("readme", stencil.S{"install"},  func(c *stencil.Context) {
+		c.Run("godocdown -o README.md")
+	 	c.Pipe(
+	filter.Load("./README.md"),
+			filter.Str(str.ReplaceF("--", "\n[stencil](https://github.com/stencil.com)\n", 1)),
+			filter.Write(),
+		)
+	 })
+
 	p.Func("build", nil, func(c *stencil.Context) {
-		c.Run("go install", stencil.M{"$in": "stencil"})
+		c.Run("go install", stencil.M{"$in": "cmd/gostencil"})
 	})
 
 	p.Func("interactive", nil, func(c *stencil.Context) {
@@ -50,7 +62,7 @@ func tasks(p *stencil.Project) {
 		}
 	})
 
-	p.Func("err", stencil.Series{"err2"}, func(*stencil.Context) {
+	p.Func("err", stencil.S{"err2"}, func(*stencil.Context) {
 		pass++
 		if pass == 1 {
 			return
@@ -64,13 +76,14 @@ func tasks(p *stencil.Project) {
 	}).Src("*.hello").Wait(3000)
 
 	p.Func("server", nil, func(c *stencil.Context) {
-		c.Start("main.go", stencil.M{"$in": "example"})
-	}).Src("example/**/*.go")
+		c.Start("main.go", stencil.M{"$in": "cmd/example"})
+	}).Src("cmd/example/**/*.go")
 
 	p.Func("change-package", nil, func(c *stencil.Context) {
 		// works on mac
-		c.Run(`find . -name "*.go" -print | xargs sed -i "" 's|github.com/gofunct/stencil|github.com/gofunct/stencil|g'`)
+		c.Run(`find . -name "*.go" -print | xargs sed -i "" 's|gopkg.in/gostencil.v1|gopkg.in/gostencil.v2|g'`)
 		// maybe linux?
+		//Run(`find . -name "*.go" -print | xargs sed -i 's|gopkg.in/gostencil.v1|gopkg.in/gostencil.v2|g'`)
 	})
 }
 

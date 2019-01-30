@@ -17,6 +17,10 @@ type Pipeline struct {
 	Filters []interface{}
 }
 
+func NewPipeline() *Pipeline {
+	return &Pipeline{}
+}
+
 // Pipe creates a pipeline with filters and runs it.
 func Pipe(filters ...interface{}) (*Pipeline, error) {
 	pipeline := &Pipeline{Assets: []*Asset{}}

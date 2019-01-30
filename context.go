@@ -18,6 +18,8 @@ type Context struct {
 	// Task is the currently running task.
 	Job *Job
 
+	Pipeline *Pipeline
+
 	// FileEvent is an event from the watcher with change details.
 	FileEvent *watcher.FileEvent
 
@@ -58,6 +60,14 @@ func (context *Context) Bash(cmd string, options ...map[string]interface{}) {
 	if err != nil {
 		context.Error = err
 	}
+}
+// Bash runs a bash shell.
+func (context *Context) Pipe(filters ...interface{}) {
+	if context.Pipeline == nil {
+		context.Pipeline = NewPipeline()
+	}
+
+
 }
 
 // Start run aysnchronously.
