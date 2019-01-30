@@ -133,7 +133,7 @@ func (project *Project) debounce(task *Job) bool {
 	}
 	debounce := task.debounce
 	if debounce == 0 {
-		debounce = Debounce
+		debounce = Wait
 	}
 
 	now := time.Now()

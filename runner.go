@@ -35,7 +35,7 @@ func GetWatchDelay() time.Duration {
 func init() {
 	// WatchDelay is the time to poll the file system
 	SetWatchDelay(watchDelay)
-	Debounce = 2000 * time.Millisecond
+	Wait = 2000 * time.Millisecond
 	var err error
 	wd, err = os.Getwd()
 	if err != nil {

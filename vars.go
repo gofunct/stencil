@@ -17,8 +17,8 @@ var (
 	version            bool
 	deprecatedWarnings bool
 
-	// DebounceMs is the default time (1500 ms) to debounce task events in watch mode.
-	Debounce        time.Duration
+	// WaitMs is the default time (1500 ms) to debounce task events in watch mode.
+	Wait            time.Duration
 	runnerWaitGroup = &wait.WaitGroupN{}
 	waitExit        bool
 	argm            minimist.ArgMap

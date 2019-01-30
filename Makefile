@@ -1,8 +1,8 @@
-.PHONY: build get
+.PHONY: build
 
 build:
 	@go mod vendor
 	@go fmt ./...
 	@go vet ./...
-	@cd stencil && go install -a
+	@go install ./...
 
