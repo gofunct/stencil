@@ -87,7 +87,7 @@ func startEx(context *Context, commandstr string, options []map[string]interface
 			if err != nil {
 				p = event.Path
 			}
-			util.Info(context.Task.Name, "rebuilding %s...\n", filepath.Dir(p))
+			util.Info(context.Go.Name, "rebuilding %s...\n", filepath.Dir(p))
 			rebuildPackage(event.Path)
 		}
 	}
@@ -95,7 +95,7 @@ func startEx(context *Context, commandstr string, options []map[string]interface
 	if isGoFile {
 		cmdstr := "go install"
 		if context == nil || context.FileEvent == nil {
-			util.Info(context.Task.Name, "rebuilding with -a to ensure clean build (might take awhile)\n")
+			util.Info(context.Go.Name, "rebuilding with -a to ensure clean build (might take awhile)\n")
 			cmdstr += " -a"
 		}
 		_, err = Run(cmdstr, m)

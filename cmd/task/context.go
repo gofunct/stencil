@@ -16,7 +16,7 @@ func logVerbose(msg string, format string, args ...interface{}) {
 // Context is the data passed to a task.
 type Context struct {
 	// Task is the currently running task.
-	Task *Task
+	Go *Task
 
 	// FileEvent is an event from the watcher with change details.
 	FileEvent *watcher.FileEvent
@@ -33,13 +33,13 @@ func (context *Context) AnyFile() []string {
 	if context.FileEvent != nil && context.FileEvent.Event != watcher.DELETED {
 		return []string{context.FileEvent.Path}
 	}
-	return context.Task.SrcGlobs
+	return context.Go.SrcGlobs
 }
 
 // Run runs a command
 func (context *Context) Run(cmd string, options ...map[string]interface{}) {
 	if context.Error != nil {
-		logVerbose(context.Task.Name, "Context is in error. Skipping: %s\n", cmd)
+		logVerbose(context.Go.Name, "Context is in error. Skipping: %s\n", cmd)
 		return
 	}
 	_, err := Run(cmd, options...)
@@ -51,7 +51,7 @@ func (context *Context) Run(cmd string, options ...map[string]interface{}) {
 // Bash runs a bash shell.
 func (context *Context) Bash(cmd string, options ...map[string]interface{}) {
 	if context.Error != nil {
-		logVerbose(context.Task.Name, "Context is in error. Skipping: %s\n", cmd)
+		logVerbose(context.Go.Name, "Context is in error. Skipping: %s\n", cmd)
 		return
 	}
 	_, err := Bash(cmd, options...)
@@ -63,7 +63,7 @@ func (context *Context) Bash(cmd string, options ...map[string]interface{}) {
 // Start run aysnchronously.
 func (context *Context) Start(cmd string, options ...map[string]interface{}) {
 	if context.Error != nil {
-		logVerbose(context.Task.Name, "Context is in error. Skipping: %s\n", cmd)
+		logVerbose(context.Go.Name, "Context is in error. Skipping: %s\n", cmd)
 		return
 	}
 

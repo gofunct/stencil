@@ -317,7 +317,7 @@ func (project *Project) Use(namespace string, tasksFunc func(*Project)) {
 }
 
 // Task adds a task to the project with dependencies and handler.
-func (project *Project) Task(name string, dependencies Dependency, handler func(*Context)) *Task {
+func (project *Project) Go(name string, dependencies Dependency, handler func(*Context)) *Task {
 	task := NewTask(name, project.contextArgm)
 
 	if handler == nil && dependencies == nil {
