@@ -2,37 +2,36 @@ package main
 
 import (
 	"fmt"
-	"github.com/gofunct/stencil/cmd/task"
+	"github.com/gofunct/stencil"
 )
 
-func tasks(p *task.Project) {
-	p.Go("test", nil, func(c *task.Context) {
+func tasks(p *stencil.Project) {
+	p.Func("test", nil, func(c *stencil.Context) {
 		c.Run("go test")
 	})
 
-	p.Go("test", task.S{"build"}, func(c *task.Context) {
+	p.Func("test", stencil.Series{"build"}, func(c *stencil.Context) {
 		c.Run("go test")
 	})
 
-	p.Go("dist", task.S{"test", "lint"}, nil)
+	p.Func("dist", stencil.Series{"test", "lint"}, nil)
 
-	p.Go("install", nil, func(c *task.Context) {
+	p.Func("install", nil, func(c *stencil.Context) {
 		c.Run("go get github.com/golang/lint/golint")
-		// Run("go get github.com/mgutz/goa")
-		c.Run("go get github.com/robertkrimen/gotaskctaskwn")
+		c.Run("go get github.com/robertkrimen/godocdown")
 	})
 
-	p.Go("lint", nil, func(c *task.Context) {
+	p.Func("lint", nil, func(c *stencil.Context) {
 		c.Run("golint .")
 		c.Run("gofmt -w -s .")
 		c.Run("go vet .")
 	})
 
-	p.Go("build", nil, func(c *task.Context) {
-		c.Run("go install", task.M{"$in": "stencil"})
+	p.Func("build", nil, func(c *stencil.Context) {
+		c.Run("go install", stencil.M{"$in": "stencil"})
 	})
 
-	p.Go("interactive", nil, func(c *task.Context) {
+	p.Func("interactive", nil, func(c *stencil.Context) {
 		c.Bash(`
 			echo name?
 			read name
@@ -40,42 +39,41 @@ func tasks(p *task.Project) {
 		`)
 	})
 
-	p.Go("whoami", nil, func(c *task.Context) {
+	p.Func("whoami", nil, func(c *stencil.Context) {
 		c.Run("whoami")
 	})
 
 	pass := 0
-	p.Go("err2", nil, func(*task.Context) {
+	p.Func("err2", nil, func(*stencil.Context) {
 		if pass == 2 {
-			task.Halt("oh oh")
+			stencil.Halt("oh oh")
 		}
 	})
 
-	p.Go("err", task.S{"err2"}, func(*task.Context) {
+	p.Func("err", stencil.Series{"err2"}, func(*stencil.Context) {
 		pass++
 		if pass == 1 {
 			return
 		}
-		task.Halt("foo err")
+		stencil.Halt("foo err")
 	}).Src("test/*.txt")
 
-	p.Go("hello", nil, func(c *task.Context) {
+	p.Func("hello", nil, func(c *stencil.Context) {
 		name := c.Args.AsString("default value", "name", "n")
 		fmt.Println("Hello", name)
 	}).Src("*.hello").Debounce(3000)
 
-	p.Go("server", nil, func(c *task.Context) {
-		c.Start("main.go", task.M{"$in": "example"})
+	p.Func("server", nil, func(c *stencil.Context) {
+		c.Start("main.go", stencil.M{"$in": "example"})
 	}).Src("example/**/*.go")
 
-	p.Go("change-package", nil, func(c *task.Context) {
+	p.Func("change-package", nil, func(c *stencil.Context) {
 		// works on mac
 		c.Run(`find . -name "*.go" -print | xargs sed -i "" 's|github.com/gofunct/stencil|github.com/gofunct/stencil|g'`)
 		// maybe linux?
-		//Run(`find . -name "*.go" -print | xargs sed -i 's|gopkg.in/stencil.v1|github.com/gofunct/stencil|g'`)
 	})
 }
 
 func main() {
-	task.Stencil(tasks)
+	stencil.Stencil(tasks)
 }

@@ -16,9 +16,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/gofunct/stencil/cmd/task"
-	"github.com/gofunct/stencil/util"
-	"github.com/gofunct/stencil/watcher"
+	"github.com/gofunct/stencil"
+	"github.com/gofunct/stencil/pkg/fs"
+	"github.com/gofunct/stencil/pkg/watcher"
 	"github.com/mgutz/minimist"
 	"io/ioutil"
 	"log"
@@ -32,6 +32,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/gofunct/stencil/pkg/print"
 	"github.com/spf13/cobra"
 )
 
@@ -50,31 +51,31 @@ var taskCmd = &cobra.Command{
 		stencilFiles := []string{"Stencildir/main.go", "Stencildir/Stencilfile.go", "tasks/Stencilfile.go"}
 		src := ""
 		for _, filename := range stencilFiles {
-			src = util.FindUp(".", filename)
+			src = fs.FindUp(".", filename)
 			if src != "" {
 				break
 			}
 		}
 
 		if src == "" {
-			task.Usage("")
+			stencil.Usage("")
 			os.Exit(0)
 		}
 
 		wd, err := os.Getwd()
 		if err != nil {
-			util.Error("stencil", "Could not get working directory: %s\n", err.Error())
+			print.Error("stencil", "Could not get working directory: %s\n", err.Error())
 		}
 
 		// parent of Stencildir/main.go
 		absParentDir, err := filepath.Abs(filepath.Dir(filepath.Dir(src)))
 		if err != nil {
-			util.Error("stencil", "Could not get absolute parent of %s: %s\n", src, err.Error())
+			print.Error("stencil", "Could not get absolute parent of %s: %s\n", src, err.Error())
 		}
 		if wd != absParentDir {
 			relDir, _ := filepath.Rel(wd, src)
 			os.Chdir(absParentDir)
-			util.Info("stencil", "Using %s\n", relDir)
+			print.Info("stencil", "Using %s\n", relDir)
 		}
 
 		os.Setenv("STENCILFILE", src)
@@ -89,7 +90,7 @@ var taskCmd = &cobra.Command{
 
 func checkError(err error, format string, args ...interface{}) {
 	if err != nil {
-		util.Error("ERR", format, args...)
+		print.Error("ERR", format, args...)
 		os.Exit(1)
 	}
 }
@@ -129,7 +130,7 @@ func buildCommand(stencilFile string, forceBuild bool) (*exec.Cmd, string) {
 	// process stencilenv file
 	env := stencilenv(stencilFile)
 	if env != "" {
-		cmd.Env = task.EffectiveEnv(task.ParseStringEnv(env))
+		cmd.Env = stencil.EffectiveEnv(stencil.ParseStringEnv(env))
 	}
 
 	return cmd, exe
@@ -140,7 +141,7 @@ func stencilenv(stencilFile string) string {
 	if _, err := os.Stat(stencilenvFile); err == nil {
 		b, err := ioutil.ReadFile(stencilenvFile)
 		if err != nil {
-			util.Error("stencil", "Cannot read %s file", stencilenvFile)
+			print.Error("stencil", "Cannot read %s file", stencilenvFile)
 			os.Exit(1)
 		}
 		return string(b)
@@ -158,7 +159,7 @@ func runAndWatch(stencilFile string) {
 			done <- true
 			if err != nil {
 				if isVerbose {
-					util.Debug("stencil", "stencil process killed\n")
+					print.Debug("stencil", "stencil process killed\n")
 				}
 			}
 		}()
@@ -168,21 +169,21 @@ func runAndWatch(stencilFile string) {
 	bufferSize := 2048
 	watchr, err := watcher.NewWatcher(bufferSize)
 	if err != nil {
-		util.Panic("project", "%v\n", err)
+		print.Panic("project", "%v\n", err)
 	}
 	stencilDir := filepath.Dir(stencilFile)
 	watchr.WatchRecursive(stencilDir)
 	watchr.ErrorHandler = func(err error) {
-		util.Error("stencil", "Watcher error %v\n", err)
+		print.Error("stencil", "Watcher error %v\n", err)
 	}
 
 	cmd, exe := run(false)
 	// this function will block forever, Ctrl+C to quit app
 	// var lastHappenedTime int64
 	watchr.Start()
-	util.Info("stencil", "watching %s\n", stencilDir)
+	print.Info("stencil", "watching %s\n", stencilDir)
 
-	<-time.After(task.GetWatchDelay() + (300 * time.Millisecond))
+	<-time.After(stencil.GetWatchDelay() + (300 * time.Millisecond))
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
@@ -202,7 +203,7 @@ func runAndWatch(stencilFile string) {
 			if event.Path == exe || event.Path == path.Join(path.Dir(exe), path.Base(path.Dir(exe))) {
 				continue
 			}
-			util.Debug("watchmain", "%+v\n", event)
+			print.Debug("watchmain", "%+v\n", event)
 			killStencil(cmd, true)
 			<-done
 			cmd, _ = run(true)
@@ -254,7 +255,7 @@ func buildMain(src string, forceBuild bool) string {
 	mustBeMain(src)
 	dir := filepath.Dir(src)
 
-	exeFile := "stencilbin-" + task.Version
+	exeFile := "stencilbin-" + stencil.Version
 	if isWindows {
 		exeFile += ".exe"
 	}
@@ -267,17 +268,17 @@ func buildMain(src string, forceBuild bool) string {
 		build = true
 		reasonFormat = "Rebuilding %s...\n"
 	} else {
-		build = util.Outdated([]string{dir + "/**/*.go"}, []string{exe})
+		build = fs.Outdated([]string{dir + "/**/*.go"}, []string{exe})
 		reasonFormat = "Stencil tasks changed. Rebuilding %s...\n"
 	}
 
 	if build {
-		util.Debug("stencil", reasonFormat, exe)
+		print.Debug("stencil", reasonFormat, exe)
 		env := stencilenv(src)
 		if env != "" {
-			task.Env = env
+			stencil.Env = env
 		}
-		_, err := task.Run("go build -a -o "+exeFile, task.M{"$in": dir})
+		_, err := stencil.Run("go build -a -o "+exeFile, stencil.M{"$in": dir})
 		if err != nil {
 			panic(fmt.Sprintf("Error building %s: %s\n", src, err.Error()))
 		}
@@ -292,7 +293,7 @@ func buildMain(src string, forceBuild bool) string {
 	}
 
 	if isRebuild {
-		util.Info("stencil", "ok\n")
+		print.Info("stencil", "ok\n")
 	}
 
 	return exe
