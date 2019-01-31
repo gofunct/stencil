@@ -2,6 +2,9 @@ package stencil
 
 import (
 	"fmt"
+	"github.com/gofunct/gofs"
+	"github.com/gofunct/gofs/watcher"
+	"github.com/mgutz/minimist"
 	"io"
 	"path/filepath"
 	"sort"
@@ -9,9 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"github.com/gofunct/gofs"
-	"github.com/gofunct/gofs/watcher"
-	"github.com/mgutz/minimist"
 )
 
 // softPanic is used to check for errors within a task handler.

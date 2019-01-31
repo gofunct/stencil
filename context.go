@@ -1,8 +1,8 @@
 package stencil
 
 import (
-	"github.com/gofunct/gofs/watcher"
 	"github.com/gofunct/gofs"
+	"github.com/gofunct/gofs/watcher"
 	"github.com/mgutz/minimist"
 )
 

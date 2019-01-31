@@ -1,8 +1,8 @@
 package filter
 
 import (
+	"github.com/gofunct/gofs"
 	"github.com/gofunct/stencil"
-	"github.com/gofunct/stencil/pkg/glob"
 	"io/ioutil"
 )
 
@@ -12,7 +12,7 @@ import (
 // with large files.
 func Load(patterns ...string) func(*stencil.Pipeline) error {
 	return func(pipeline *stencil.Pipeline) error {
-		fileAssets, _, err := glob.Glob(patterns)
+		fileAssets, _, err := gofs.Glob(patterns)
 		if err != nil {
 			return err
 		}

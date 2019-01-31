@@ -2,8 +2,8 @@ package stencil
 
 import (
 	"github.com/gofunct/gofs"
-	"time"
 	"github.com/mgutz/str"
+	"time"
 )
 
 // Dependency marks an interface as a dependency.

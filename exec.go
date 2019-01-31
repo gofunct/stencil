@@ -4,13 +4,13 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/gofunct/gofs"
+	"github.com/howeyc/gopass"
+	"github.com/mgutz/str"
+	"github.com/nozzle/throttler"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
-	"github.com/howeyc/gopass"
-	"github.com/mgutz/str"
-	"github.com/nozzle/throttler"
 )
 
 // Run runs a command.

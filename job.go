@@ -2,15 +2,15 @@ package stencil
 
 import (
 	"fmt"
+	"github.com/gofunct/gofs"
+	"github.com/gofunct/gofs/watcher"
+	"github.com/mgutz/minimist"
+	"github.com/mgutz/str"
 	"io"
 	"path/filepath"
 	"strings"
 	"sync"
 	"time"
-	"github.com/gofunct/gofs"
-	"github.com/gofunct/gofs/watcher"
-	"github.com/mgutz/minimist"
-	"github.com/mgutz/str"
 )
 
 // TaskFunction is the signature of the function used to define a type.
