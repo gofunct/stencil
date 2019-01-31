@@ -574,7 +574,7 @@ func (project *Project) quit(isParent bool) {
 		cquit <- true
 	}
 	if isParent {
-		gofs.RunnerWaitGroup.Stop()
+		RunnerWaitGroup.Stop()
 		for _, process := range Processes {
 			if process != nil {
 				process.Kill()

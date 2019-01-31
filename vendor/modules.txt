@@ -41,10 +41,10 @@ github.com/bgentry/go-netrc/netrc
 github.com/fsnotify/fsnotify
 # github.com/gofunct/common v0.0.0-20190130230830-13c573fa0b23
 github.com/gofunct/common/pkg/logger/zap
-github.com/gofunct/common/pkg/print
 github.com/gofunct/common/pkg/wait
+github.com/gofunct/common/pkg/print
 github.com/gofunct/common/pkg/fs/watcher/fswatch
-# github.com/gofunct/gofs v0.0.0-20190131020900-4a042e791d1b
+# github.com/gofunct/gofs v0.0.0-20190131022507-2ac037d02645
 github.com/gofunct/gofs
 github.com/gofunct/gofs/watcher
 # github.com/gokyle/fswatch v0.0.0-20121217010029-1dbdf8320a69

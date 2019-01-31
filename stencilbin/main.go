@@ -15,9 +15,8 @@
 package main
 
 import (
+	"github.com/gofunct/gofs"
 	"github.com/gofunct/stencil"
-	"github.com/gofunct/stencil/pkg/fs"
-	"github.com/gofunct/stencil/pkg/print"
 	"github.com/mgutz/minimist"
 	"os"
 	"path/filepath"
@@ -27,7 +26,7 @@ func main() {
 	stencilFiles := []string{"bin/main.go"}
 	src := ""
 	for _, filename := range stencilFiles {
-		src = fs.FindUp(".", filename)
+		src = gofs.FindUp(".", filename)
 		if src != "" {
 			break
 		}
@@ -40,18 +39,18 @@ func main() {
 
 	wd, err := os.Getwd()
 	if err != nil {
-		print.Error("stencil", "Could not get working directory: %s\n", err.Error())
+		gofs.Error("stencil", "Could not get working directory: %s\n", err.Error())
 	}
 
 	// parent of Stencildir/main.go
 	absParentDir, err := filepath.Abs(filepath.Dir(filepath.Dir(src)))
 	if err != nil {
-		print.Error("stencil", "Could not get absolute parent of %s: %s\n", src, err.Error())
+		gofs.Error("stencil", "Could not get absolute parent of %s: %s\n", src, err.Error())
 	}
 	if wd != absParentDir {
 		relDir, _ := filepath.Rel(wd, src)
 		os.Chdir(absParentDir)
-		print.Info("stencil", "Using %s\n", relDir)
+		gofs.Info("stencil", "Using %s\n", relDir)
 	}
 
 	os.Setenv("STENCILFILE", src)

@@ -6,8 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-
-	"github.com/gofunct/common/pkg/print"
+	"github.com/gofunct/gofs"
 	"github.com/mgutz/ansi"
 )
 
@@ -62,12 +61,12 @@ func (gcmd *command) toExecCmd() (cmd *exec.Cmd, err error) {
 
 	if verbose {
 		if Env != "" {
-			print.Debug("#", "Env: %s\n", Env)
+			gofs.Debug("#", "Env: %s\n", Env)
 		}
 		if gcmd.wd != "" {
-			print.Debug("#", "Dir: %s\n", gcmd.wd)
+			gofs.Debug("#", "Dir: %s\n", gcmd.wd)
 		}
-		print.Debug("#", "%s\n", gcmd.commandstr)
+		gofs.Debug("#", "%s\n", gcmd.commandstr)
 	}
 
 	return cmd, nil
@@ -98,7 +97,7 @@ func (gcmd *command) runAsync() error {
 
 	// kills previously spawned process (if exists)
 	killSpawned(id)
-	gofs.RunnerWaitGroup.Add(1)
+	RunnerWaitGroup.Add(1)
 	waitExit = true
 	go func() {
 		err = cmd.Start()
@@ -108,10 +107,10 @@ func (gcmd *command) runAsync() error {
 		}
 		Processes[id] = cmd.Process
 		if verbose {
-			print.Debug("#", "Processes[%q] added\n", id)
+			gofs.Debug("#", "Processes[%q] added\n", id)
 		}
 		cmd.Wait()
-		gofs.RunnerWaitGroup.Done()
+		RunnerWaitGroup.Done()
 	}()
 	return nil
 }
@@ -126,10 +125,10 @@ func killSpawned(command string) {
 	//err := syscall.Kill(-process.Pid, syscall.SIGKILL)
 	delete(Processes, command)
 	if err != nil && !strings.Contains(err.Error(), "process already finished") {
-		print.Error("Start", "Could not kill existing process %+v\n%s\n", process, err.Error())
+		gofs.Error("Start", "Could not kill existing process %+v\n%s\n", process, err.Error())
 		return
 	}
 	if verbose {
-		print.Debug("#", "Processes[%q] killed\n", command)
+		gofs.Debug("#", "Processes[%q] killed\n", command)
 	}
 }

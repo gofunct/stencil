@@ -16,9 +16,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/gofunct/gofs/watcher"
 	"github.com/gofunct/stencil"
-	"github.com/gofunct/stencil/pkg/fs"
-	"github.com/gofunct/stencil/pkg/watcher"
 	"io/ioutil"
 	"log"
 	"os"
@@ -30,8 +29,7 @@ import (
 	"runtime"
 	"syscall"
 	"time"
-
-	"github.com/gofunct/stencil/pkg/print"
+	"github.com/gofunct/gofs"
 )
 
 var isWindows = runtime.GOOS == "windows"
@@ -42,7 +40,7 @@ var hasTasks bool
 
 func checkError(err error, format string, args ...interface{}) {
 	if err != nil {
-		print.Error("ERR", format, args...)
+		gofs.Error("ERR", format, args...)
 		os.Exit(1)
 	}
 }
@@ -93,7 +91,7 @@ func stencilenv(stencilFile string) string {
 	if _, err := os.Stat(stencilenvFile); err == nil {
 		b, err := ioutil.ReadFile(stencilenvFile)
 		if err != nil {
-			print.Error("stencil", "Cannot read %s file", stencilenvFile)
+			gofs.Error("stencil", "Cannot read %s file", stencilenvFile)
 			os.Exit(1)
 		}
 		return string(b)
@@ -111,7 +109,7 @@ func runAndWatch(stencilFile string) {
 			done <- true
 			if err != nil {
 				if isVerbose {
-					print.Debug("stencil", "stencil process killed\n")
+					gofs.Debug("stencil", "stencil process killed\n")
 				}
 			}
 		}()
@@ -121,19 +119,19 @@ func runAndWatch(stencilFile string) {
 	bufferSize := 2048
 	watchr, err := watcher.NewWatcher(bufferSize)
 	if err != nil {
-		print.Panic("project", "%v\n", err)
+		gofs.Panic("project", "%v\n", err)
 	}
 	stencilDir := filepath.Dir(stencilFile)
 	watchr.WatchRecursive(stencilDir)
 	watchr.ErrorHandler = func(err error) {
-		print.Error("stencil", "Watcher error %v\n", err)
+		gofs.Error("stencil", "Watcher error %v\n", err)
 	}
 
 	cmd, exe := run(false)
 	// this function will block forever, Ctrl+C to quit app
 	// var lastHappenedTime int64
 	watchr.Start()
-	print.Info("stencil", "watching %s\n", stencilDir)
+	gofs.Info("stencil", "watching %s\n", stencilDir)
 
 	<-time.After(stencil.GetWatchDelay() + (300 * time.Millisecond))
 
@@ -155,7 +153,7 @@ func runAndWatch(stencilFile string) {
 			if event.Path == exe || event.Path == path.Join(path.Dir(exe), path.Base(path.Dir(exe))) {
 				continue
 			}
-			print.Debug("watchmain", "%+v\n", event)
+			gofs.Debug("watchmain", "%+v\n", event)
 			killStencil(cmd, true)
 			<-done
 			cmd, _ = run(true)
@@ -220,12 +218,12 @@ func buildMain(src string, forceBuild bool) string {
 		build = true
 		reasonFormat = "Rebuilding %s...\n"
 	} else {
-		build = fs.Outdated([]string{dir + "/**/*.go"}, []string{exe})
+		build = gofs.Outdated([]string{dir + "/**/*.go"}, []string{exe})
 		reasonFormat = "Stencil jobs changed. Rebuilding %s...\n"
 	}
 
 	if build {
-		print.Debug("stencil", reasonFormat, exe)
+		gofs.Debug("stencil", reasonFormat, exe)
 		env := stencilenv(src)
 		if env != "" {
 			stencil.Env = env
@@ -245,7 +243,7 @@ func buildMain(src string, forceBuild bool) string {
 	}
 
 	if isRebuild {
-		print.Info("stencil", "ok\n")
+		gofs.Info("stencil", "ok\n")
 	}
 
 	return exe

@@ -66,6 +66,8 @@ github.com/gofunct/common v0.0.0-20190130230830-13c573fa0b23 h1:p/ZW84R86le/5Ifu
 github.com/gofunct/common v0.0.0-20190130230830-13c573fa0b23/go.mod h1:nHYjI94la38LbMyviEg6MGErHtS7xVJh6LVM2kc0Qog=
 github.com/gofunct/gofs v0.0.0-20190131020900-4a042e791d1b h1:YlVa+RfSJVNY9/nj9xU7Q5d64yG8QB9UBS7qF5dFYQk=
 github.com/gofunct/gofs v0.0.0-20190131020900-4a042e791d1b/go.mod h1:SwqZUCCDs/cTaswlWvEsBJ/rf5N7UTAsmJ/cLJKDudg=
+github.com/gofunct/gofs v0.0.0-20190131022507-2ac037d02645 h1:TGfsvvjJJen7gwaw+nLgHpUsbtuJpTKMiE1jnCjCdOU=
+github.com/gofunct/gofs v0.0.0-20190131022507-2ac037d02645/go.mod h1:SwqZUCCDs/cTaswlWvEsBJ/rf5N7UTAsmJ/cLJKDudg=
 github.com/gofunct/mamba v0.0.0-20190129225843-93fc15e35cf6 h1:UBFEtylz0zQGCKov/hIekPFjogsdmuFFjJognP1wITM=
 github.com/gofunct/mamba v0.0.0-20190129225843-93fc15e35cf6/go.mod h1:yu7Q2CWOhMtq/TBooTLfeA6V5Fqtn1OBcaiKTuGfv6A=
 github.com/gogo/protobuf v1.1.1/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=

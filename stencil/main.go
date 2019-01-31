@@ -21,7 +21,7 @@
 package main
 
 import (
-	"github.com/gofunct/stencil/pkg/commands"
+	"github.com/gofunct/stencil/commands"
 )
 
 func main() {

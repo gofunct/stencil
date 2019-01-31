@@ -10,7 +10,7 @@ require (
 	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect
 	github.com/gofunct/common v0.0.0-20190130230830-13c573fa0b23
-	github.com/gofunct/gofs v0.0.0-20190131020900-4a042e791d1b
+	github.com/gofunct/gofs v0.0.0-20190131022507-2ac037d02645
 	github.com/gokyle/fswatch v0.0.0-20121217010029-1dbdf8320a69
 	github.com/golang/lint v0.0.0-20181217174547-8f45f776aaf1 // indirect
 	github.com/google/uuid v1.1.0 // indirect

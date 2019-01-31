@@ -140,7 +140,7 @@ func stencilExit(tasksFunc func(*Project), argv []string, exitFn func(int)) {
 
 	if watching {
 		if project.Watch(args, true) {
-			gofs.RunnerWaitGroup.Add(1)
+			RunnerWaitGroup.Add(1)
 			waitExit = true
 		} else {
 			fmt.Println("Nothing to watch. Use Task#Src() to specify watch patterns")
@@ -163,7 +163,7 @@ func stencilExit(tasksFunc func(*Project), argv []string, exitFn func(int)) {
 			}
 		}()
 
-		gofs.RunnerWaitGroup.Wait()
+		RunnerWaitGroup.Wait()
 	}
 	exitFn(0)
 }
