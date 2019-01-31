@@ -62,9 +62,14 @@ github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/me
 github.com/gofrs/uuid v3.2.0+incompatible/go.mod h1:b2aQJv3Z4Fp6yNu3cdSllBxTCLRxnplIgP/c0N/04lM=
 github.com/gofunct/common v0.0.0-20190129002835-dc0c14ef193d h1:2YofNtUA8+4hANxpeVRMmxokC67lq57qieG66ryCjCs=
 github.com/gofunct/common v0.0.0-20190129002835-dc0c14ef193d/go.mod h1:g2iVspKPk2901gx4a7rtJ2+TpVNl1Y7+M+XtrpPoqdw=
+github.com/gofunct/common v0.0.0-20190130230830-13c573fa0b23 h1:p/ZW84R86le/5IfuRHMy4DbzgUAd34LjAM3AK8KBaAw=
+github.com/gofunct/common v0.0.0-20190130230830-13c573fa0b23/go.mod h1:nHYjI94la38LbMyviEg6MGErHtS7xVJh6LVM2kc0Qog=
+github.com/gofunct/gofs v0.0.0-20190131020900-4a042e791d1b h1:YlVa+RfSJVNY9/nj9xU7Q5d64yG8QB9UBS7qF5dFYQk=
+github.com/gofunct/gofs v0.0.0-20190131020900-4a042e791d1b/go.mod h1:SwqZUCCDs/cTaswlWvEsBJ/rf5N7UTAsmJ/cLJKDudg=
 github.com/gofunct/mamba v0.0.0-20190129225843-93fc15e35cf6 h1:UBFEtylz0zQGCKov/hIekPFjogsdmuFFjJognP1wITM=
 github.com/gofunct/mamba v0.0.0-20190129225843-93fc15e35cf6/go.mod h1:yu7Q2CWOhMtq/TBooTLfeA6V5Fqtn1OBcaiKTuGfv6A=
 github.com/gogo/protobuf v1.1.1/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
+github.com/gogo/protobuf v1.2.0 h1:xU6/SpYbvkNYiptHJYEDRseDLvYE7wSqhYYNy0QSUzI=
 github.com/gogo/protobuf v1.2.0/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
 github.com/gokyle/fswatch v0.0.0-20121217010029-1dbdf8320a69 h1:ZlqVKRbGps72I2GkDEhFoKyvbGtaJqOBm8XdC9JgJbg=
 github.com/gokyle/fswatch v0.0.0-20121217010029-1dbdf8320a69/go.mod h1:mPSEdAn8JDvRp/NN52qmojPflfPOFLPfQe361QrmvRE=
@@ -157,6 +162,8 @@ github.com/mitchellh/mapstructure v1.1.2/go.mod h1:FVVH3fgwuzCH5S8UJGiWEs2h04kUh
 github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
 github.com/modern-go/reflect2 v1.0.1/go.mod h1:bx2lNnkwVCuqBIxFjflWJWanXIb3RllmbCylyMrvgv0=
 github.com/mwitkow/go-conntrack v0.0.0-20161129095857-cc309e4a2223/go.mod h1:qRWi+5nqEBWmkhHvq77mSJWrCKwh8bxhgT7d/eI7P4U=
+github.com/mwitkow/go-proto-validators v0.0.0-20180403085117-0950a7990007 h1:28i1IjGcx8AofiB4N3q5Yls55VEaitzuEPkFJEVgGkA=
+github.com/mwitkow/go-proto-validators v0.0.0-20180403085117-0950a7990007/go.mod h1:m2XC9Qq0AlmmVksL6FktJCdTYyLk7V3fKyp0sl1yWQo=
 github.com/nozzle/throttler v0.0.0-20180817012639-2ea982251481 h1:Up6+btDp321ZG5/zdSLo48H9Iaq0UQGthrhWC6pCxzE=
 github.com/nozzle/throttler v0.0.0-20180817012639-2ea982251481/go.mod h1:yKZQO8QE2bHlgozqWDiRVqTFlLQSj30K/6SAK8EeYFw=
 github.com/oklog/oklog v0.3.2/go.mod h1:FCV+B7mhrz4o+ueLpx+KqkyXRGMWOYEvfiXtdGtbWGs=

@@ -7,10 +7,8 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	"github.com/gofunct/stencil/pkg/glob"
-	"github.com/gofunct/stencil/pkg/print"
-	"github.com/gofunct/stencil/pkg/watcher"
+	"github.com/gofunct/gofs"
+	"github.com/gofunct/gofs/watcher"
 	"github.com/mgutz/minimist"
 	"github.com/mgutz/str"
 )
@@ -34,7 +32,7 @@ type Job struct {
 	// WatchRegexps []*RegexpInfo
 
 	// computed based on dependencies
-	EffectiveWatchRegexps []*glob.RegexpInfo
+	EffectiveWatchRegexps []*gofs.RegexpInfo
 	EffectiveWatchGlobs   []string
 
 	// Complete indicates whether this task has already ran. This flag is
@@ -43,13 +41,13 @@ type Job struct {
 	debounce time.Duration
 	RunOnce  bool
 
-	SrcFiles   []*glob.FileAsset
+	SrcFiles   []*gofs.FileAsset
 	SrcGlobs   []string
-	SrcRegexps []*glob.RegexpInfo
+	SrcRegexps []*gofs.RegexpInfo
 
-	DestFiles   []*glob.FileAsset
+	DestFiles   []*gofs.FileAsset
 	DestGlobs   []string
-	DestRegexps []*glob.RegexpInfo
+	DestRegexps []*gofs.RegexpInfo
 
 	// used when a file event is received between debounce intervals, the file event
 	// will queue itself and set this flag and force debounce to run it
@@ -68,7 +66,7 @@ func NewJob(name string, argm minimist.ArgMap) *Job {
 	return &Job{Name: name, RunOnce: runOnce, dependencies: Series{}, argm: argm}
 }
 
-// Expands glob patterns.
+// Expands gofs patterns.
 func (j *Job) expandGlobs() {
 
 	// runs once lazily
@@ -76,9 +74,9 @@ func (j *Job) expandGlobs() {
 		return
 	}
 
-	files, regexps, err := glob.Glob(j.SrcGlobs)
+	files, regexps, err := gofs.Glob(j.SrcGlobs)
 	if err != nil {
-		print.Error(j.Name, "%v", err)
+		gofs.Error(j.Name, "%v", err)
 		return
 	}
 
@@ -86,9 +84,9 @@ func (j *Job) expandGlobs() {
 	j.SrcFiles = files
 
 	if len(j.DestGlobs) > 0 {
-		files, regexps, err := glob.Glob(j.DestGlobs)
+		files, regexps, err := gofs.Glob(j.DestGlobs)
 		if err != nil {
-			print.Error(j.Name, "%v", err)
+			gofs.Error(j.Name, "%v", err)
 			return
 		}
 		j.DestRegexps = regexps
@@ -100,7 +98,7 @@ func (j *Job) expandGlobs() {
 // runs this job.
 func (j *Job) Run() error {
 	if !watching && j.Complete {
-		print.Debug(j.Name, "Already ran\n")
+		gofs.Debug(j.Name, "Already ran\n")
 		return nil
 	}
 	return j.RunWithEvent(j.Name, nil)
@@ -114,19 +112,19 @@ func (j *Job) isWatchedFile(path string) bool {
 	}
 
 	filename = filepath.ToSlash(filename)
-	//print.Debug("task", "checking for match %s\n", filename)
+	//gofs.Debug("task", "checking for match %s\n", filename)
 
 	matched := false
 	for _, info := range j.EffectiveWatchRegexps {
 		if info.Negate {
 			if matched {
 				matched = !info.MatchString(filename)
-				//print.Debug("task", "negated match? %s %s\n", filename, matched)
+				//gofs.Debug("task", "negated match? %s %s\n", filename, matched)
 				continue
 			}
 		} else if info.MatchString(filename) {
 			matched = true
-			//print.Debug("task", "matched %s %s\n", filename, matched)
+			//gofs.Debug("task", "matched %s %s\n", filename, matched)
 			continue
 		}
 	}
@@ -138,19 +136,19 @@ func (j *Job) isWatchedFile(path string) bool {
 // in watch mode.
 func (j *Job) RunWithEvent(logName string, e *watcher.FileEvent) (err error) {
 	if j.RunOnce && j.Complete {
-		print.Debug(j.Name, "Already ran\n")
+		gofs.Debug(j.Name, "Already ran\n")
 		return nil
 	}
 
 	j.expandGlobs()
 	if !j.shouldRun(e) {
-		print.Info(logName, "up-to-date 0ms\n")
+		gofs.Info(logName, "up-to-date 0ms\n")
 		return nil
 	}
 
 	start := time.Now()
 	if len(j.SrcGlobs) > 0 && len(j.SrcFiles) == 0 {
-		print.Error("task", "\""+j.Name+"\" '%v' did not match any files\n", j.SrcGlobs)
+		gofs.Error("task", "\""+j.Name+"\" '%v' did not match any files\n", j.SrcGlobs)
 	}
 
 	// Run this task only if the file matches watch Regexps
@@ -161,7 +159,7 @@ func (j *Job) RunWithEvent(logName string, e *watcher.FileEvent) (err error) {
 			return nil
 		}
 		if verbose {
-			print.Debug(logName, "%s\n", e.String())
+			gofs.Debug(logName, "%s\n", e.String())
 		}
 	}
 
@@ -186,15 +184,15 @@ func (j *Job) RunWithEvent(logName string, e *watcher.FileEvent) (err error) {
 		// no need to log if just dependency
 		log = false
 	} else {
-		print.Info(j.Name, "Ignored. Task does not have a handler or dependencies.\n")
+		gofs.Info(j.Name, "Ignored. Task does not have a handler or dependencies.\n")
 		return nil
 	}
 
 	if log {
 		if rebuilt != "" {
-			print.InfoColorful(logName, "%s%vms\n", rebuilt, time.Since(start).Nanoseconds()/1e6)
+			gofs.InfoColorful(logName, "%s%vms\n", rebuilt, time.Since(start).Nanoseconds()/1e6)
 		} else {
-			print.Info(logName, "%s%vms\n", rebuilt, time.Since(start).Nanoseconds()/1e6)
+			gofs.Info(logName, "%s%vms\n", rebuilt, time.Since(start).Nanoseconds()/1e6)
 		}
 	}
 
@@ -242,7 +240,7 @@ func (j *Job) shouldRun(e *watcher.FileEvent) bool {
 		return false
 	}
 
-	// lazily expand globs
+	// lazily expand gofss
 	j.expandGlobs()
 
 	if len(j.SrcFiles) == 0 || len(j.DestFiles) == 0 {

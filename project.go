@@ -9,10 +9,8 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	"github.com/gofunct/stencil/pkg/glob"
-	"github.com/gofunct/stencil/pkg/print"
-	"github.com/gofunct/stencil/pkg/watcher"
+	"github.com/gofunct/gofs"
+	"github.com/gofunct/gofs/watcher"
 	"github.com/mgutz/minimist"
 )
 
@@ -114,7 +112,7 @@ func (project *Project) mustTask(name string) (*Project, *Job, string) {
 
 			proj = proj.Namespace[ns]
 			if proj == nil {
-				print.Panic("ERR", "Could not find project having namespace \"%s\"\n", namespace)
+				gofs.Panic("ERR", "Could not find project having namespace \"%s\"\n", namespace)
 			}
 		}
 		taskName = parts[len(parts)-1]
@@ -122,7 +120,7 @@ func (project *Project) mustTask(name string) (*Project, *Job, string) {
 
 	task := proj.Jobs[taskName]
 	if task == nil {
-		print.Panic("ERR", `"%s" job is not defined`+"\n", name)
+		gofs.Panic("ERR", `"%s" job is not defined`+"\n", name)
 	}
 	return proj, task, taskName
 }
@@ -321,7 +319,7 @@ func (project *Project) Func(name string, dependencies Dependency, handler func(
 	task := NewJob(name, project.contextArgm)
 
 	if handler == nil && dependencies == nil {
-		print.Panic("stencil", "Job %s requires a dependency or handler\n", name)
+		gofs.Panic("stencil", "Job %s requires a dependency or handler\n", name)
 	}
 
 	if handler != nil {
@@ -340,7 +338,7 @@ func (project *Project) Func1(name string, handler func(*Context)) *Job {
 	task := NewJob(name, project.contextArgm)
 
 	if handler == nil {
-		print.Panic("stencil", "Job %s requires a dependency or handler\n", name)
+		gofs.Panic("stencil", "Job %s requires a dependency or handler\n", name)
 	}
 
 	task.Handler = HandlerFunc(handler)
@@ -354,7 +352,7 @@ func (project *Project) FuncD(name string, dependencies Dependency) *Job {
 	task := NewJob(name, project.contextArgm)
 
 	if dependencies == nil {
-		print.Panic("stencil", "Job %s requires a dependency or handler\n", name)
+		gofs.Panic("stencil", "Job %s requires a dependency or handler\n", name)
 	}
 
 	task.dependencies = append(task.dependencies, dependencies)
@@ -370,11 +368,11 @@ func (project *Project) watchTask(j *Job, root string, logName string, handler f
 	const bufferSize = 2048
 	watchr, err := watcher.NewWatcher(bufferSize)
 	if err != nil {
-		print.Panic("project", "%v\n", err)
+		gofs.Panic("project", "%v\n", err)
 	}
 	watchr.IgnorePathFn = ignorePathFn
 	watchr.ErrorHandler = func(err error) {
-		print.Error("project", "Watcher error %v\n", err)
+		gofs.Error("project", "Watcher error %v\n", err)
 	}
 	watchr.WatchRecursive(root)
 
@@ -384,7 +382,7 @@ func (project *Project) watchTask(j *Job, root string, logName string, handler f
 		fmt.Println("Could not get absolute path", err)
 		return
 	}
-	print.Info(logName, "watching %s\n", abs)
+	gofs.Info(logName, "watching %s\n", abs)
 
 	// not sure why this need to be unbuffered, but it was blocking
 	// on cquit <- true
@@ -398,7 +396,7 @@ forloop:
 		select {
 		case event := <-watchr.Event:
 			if event.Path != "" {
-				print.InfoColorful("stencil", "%s changed\n", event.Path)
+				gofs.InfoColorful("stencil", "%s changed\n", event.Path)
 			}
 			handler(event)
 		case <-cquit:
@@ -420,7 +418,7 @@ func calculateWatchPaths(patterns []string) []string {
 		if pat == "" {
 			continue
 		}
-		path := glob.PatternRoot(pat)
+		path := gofs.PatternRoot(pat)
 		abs, err := filepath.Abs(path)
 		if err != nil {
 			fmt.Println("Error calculating watch paths", err)
@@ -464,9 +462,9 @@ func calculateWatchPaths(patterns []string) []string {
 	return keep
 }
 
-// gatherWatchInfo updates globs and regexps for the task based on its dependencies
-func (project *Project) gatherWatchInfo(j *Job) (globs []string, regexps []*glob.RegexpInfo) {
-	globs = j.SrcGlobs
+// gatherWatchInfo updates gofss and regexps for the task based on its dependencies
+func (project *Project) gatherWatchInfo(j *Job) (gofss []string, regexps []*gofs.RegexpInfo) {
+	gofss = j.SrcGlobs
 	regexps = j.SrcRegexps
 
 	if len(j.dependencies) > 0 {
@@ -476,14 +474,14 @@ func (project *Project) gatherWatchInfo(j *Job) (globs []string, regexps []*glob
 		for _, depname := range names {
 			var j *Job
 			proj, j, _ = project.mustTask(depname)
-			tglobs, tregexps := proj.gatherWatchInfo(j)
+			tgofss, tregexps := proj.gatherWatchInfo(j)
 			j.EffectiveWatchRegexps = tregexps
-			globs = append(globs, tglobs...)
+			gofss = append(gofss, tgofss...)
 			regexps = append(regexps, tregexps...)
 		}
 	}
 	j.EffectiveWatchRegexps = regexps
-	j.EffectiveWatchGlobs = globs
+	j.EffectiveWatchGlobs = gofss
 	return
 }
 
@@ -494,7 +492,7 @@ func (project *Project) gatherWatchInfo(j *Job) (globs []string, regexps []*glob
 // TODO:
 // 1. Only the parent task watches, but it gathers wath info from all dependencies.
 //
-// 2. Anything without src files always run when a dependency is triggered by a glob match.
+// 2. Anything without src files always run when a dependency is triggered by a gofs match.
 //
 //		build [generate{*.go} compile] => go file changes =>  build, generate and compile
 //
@@ -524,7 +522,7 @@ func (project *Project) Watch(names []string, isParent bool) bool {
 					project.watchTask(task, path, logName, func(e *watcher.FileEvent) {
 						err := project.run(taskname, taskname, e)
 						if err != nil {
-							print.Error("ERR", "%s\n", err.Error())
+							gofs.Error("ERR", "%s\n", err.Error())
 						}
 					})
 				}(pth)
@@ -576,7 +574,7 @@ func (project *Project) quit(isParent bool) {
 		cquit <- true
 	}
 	if isParent {
-		runnerWaitGroup.Stop()
+		gofs.RunnerWaitGroup.Stop()
 		for _, process := range Processes {
 			if process != nil {
 				process.Kill()

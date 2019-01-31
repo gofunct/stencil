@@ -1,8 +1,8 @@
 package stencil
 
 import (
-	"github.com/gofunct/stencil/pkg/print"
-	"github.com/gofunct/stencil/pkg/watcher"
+	"github.com/gofunct/gofs/watcher"
+	"github.com/gofunct/gofs"
 	"github.com/mgutz/minimist"
 )
 
@@ -10,7 +10,7 @@ func logVerbose(msg string, format string, args ...interface{}) {
 	if !verbose {
 		return
 	}
-	print.Debug(msg, format, args...)
+	gofs.Debug(msg, format, args...)
 }
 
 // Context is the data passed to a task.
@@ -61,12 +61,12 @@ func (context *Context) Bash(cmd string, options ...map[string]interface{}) {
 		context.Error = err
 	}
 }
+
 // Bash runs a bash shell.
 func (context *Context) Pipe(filters ...interface{}) {
 	if context.Pipeline == nil {
 		context.Pipeline = NewPipeline()
 	}
-
 
 }
 

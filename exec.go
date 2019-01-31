@@ -3,32 +3,15 @@ package stencil
 import (
 	"bufio"
 	"fmt"
+	"github.com/gofunct/gofs"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
-
-	"github.com/gofunct/stencil/pkg/print"
-	"github.com/gofunct/stencil/pkg/util"
 	"github.com/howeyc/gopass"
 	"github.com/mgutz/str"
 	"github.com/nozzle/throttler"
 )
-
-// Bash executes a bash script (string).
-func Bash(script string, options ...map[string]interface{}) (string, error) {
-	return bash(script, options)
-}
-
-// BashOutput executes a bash script and returns the output
-func BashOutput(script string, options ...map[string]interface{}) (string, error) {
-	if len(options) == 0 {
-		options = append(options, M{"$out": CaptureBoth})
-	} else {
-		options[0]["$out"] = CaptureBoth
-	}
-	return bash(script, options)
-}
 
 // Run runs a command.
 func Run(commandstr string, options ...map[string]interface{}) (string, error) {
@@ -66,7 +49,7 @@ func startEx(context *Context, commandstr string, options []map[string]interface
 		return err
 	}
 	if strings.Contains(commandstr, "{{") {
-		commandstr, err = util.StrTemplate(commandstr, m)
+		commandstr, err = gofs.StrTemplate(commandstr, m)
 		if err != nil {
 			return err
 		}
@@ -88,7 +71,7 @@ func startEx(context *Context, commandstr string, options []map[string]interface
 			if err != nil {
 				p = event.Path
 			}
-			print.Info(context.Job.Name, "rebuilding %s...\n", filepath.Dir(p))
+			gofs.Info(context.Job.Name, "rebuilding %s...\n", filepath.Dir(p))
 			rebuildPackage(event.Path)
 		}
 	}
@@ -96,7 +79,7 @@ func startEx(context *Context, commandstr string, options []map[string]interface
 	if isGoFile {
 		cmdstr := "go install"
 		if context == nil || context.FileEvent == nil {
-			print.Info(context.Job.Name, "rebuilding with -a to ensure clean build (might take awhile)\n")
+			gofs.Info(context.Job.Name, "rebuilding with -a to ensure clean build (might take awhile)\n")
 			cmdstr += " -a"
 		}
 		_, err = Run(cmdstr, m)
@@ -162,32 +145,6 @@ func parseOptions(options []map[string]interface{}) (m map[string]interface{}, d
 	return m, dir, capture, nil
 }
 
-// Bash executes a bash string. Use backticks for multiline. To execute as shell script,
-// use Run("bash script.sh")
-func bash(script string, options []map[string]interface{}) (output string, err error) {
-	m, dir, capture, err := parseOptions(options)
-	if err != nil {
-		return "", err
-	}
-
-	if strings.Contains(script, "{{") {
-		script, err = util.StrTemplate(script, m)
-		if err != nil {
-			return "", err
-		}
-	}
-
-	gcmd := &command{
-		executable: "bash",
-		argv:       []string{"-c", script},
-		wd:         dir,
-		capture:    capture,
-		commandstr: script,
-	}
-
-	return gcmd.run()
-}
-
 func run(commandstr string, options []map[string]interface{}) (output string, err error) {
 	m, dir, capture, err := parseOptions(options)
 	if err != nil {
@@ -195,7 +152,7 @@ func run(commandstr string, options []map[string]interface{}) (output string, er
 	}
 
 	if strings.Contains(commandstr, "{{") {
-		commandstr, err = util.StrTemplate(commandstr, m)
+		commandstr, err = gofs.StrTemplate(commandstr, m)
 		if err != nil {
 			return "", err
 		}

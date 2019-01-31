@@ -1,7 +1,7 @@
 package stencil
 
 import (
-	"github.com/gofunct/stencil/pkg/wait"
+	"github.com/gofunct/common/pkg/wait"
 	"github.com/mgutz/minimist"
 	"time"
 )
@@ -19,7 +19,7 @@ var (
 
 	// WaitMs is the default time (1500 ms) to debounce task events in watch mode.
 	Wait            time.Duration
-	runnerWaitGroup = &wait.WaitGroupN{}
+	RunnerWaitGroup = &wait.WaitGroupN{}
 	waitExit        bool
 	argm            minimist.ArgMap
 	wd              string

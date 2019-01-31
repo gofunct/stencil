@@ -2,8 +2,8 @@ package stencil
 
 import (
 	"fmt"
-	"github.com/gofunct/stencil/pkg/print"
-	"github.com/gofunct/stencil/pkg/watcher"
+	"github.com/gofunct/gofs"
+	"github.com/gofunct/gofs/watcher"
 	"github.com/mgutz/minimist"
 	"os"
 	"os/signal"
@@ -133,14 +133,14 @@ func stencilExit(tasksFunc func(*Project), argv []string, exitFn func(int)) {
 	for _, name := range args {
 		err := project.Run(name)
 		if err != nil {
-			print.Error("ERR", "%s\n", err.Error())
+			gofs.Error("ERR", "%s\n", err.Error())
 			exitFn(1)
 		}
 	}
 
 	if watching {
 		if project.Watch(args, true) {
-			runnerWaitGroup.Add(1)
+			gofs.RunnerWaitGroup.Add(1)
 			waitExit = true
 		} else {
 			fmt.Println("Nothing to watch. Use Task#Src() to specify watch patterns")
@@ -163,7 +163,7 @@ func stencilExit(tasksFunc func(*Project), argv []string, exitFn func(int)) {
 			}
 		}()
 
-		runnerWaitGroup.Wait()
+		gofs.RunnerWaitGroup.Wait()
 	}
 	exitFn(0)
 }

@@ -1,9 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gofunct/stencil"
-	"github.com/gofunct/stencil/pkg/filter"
+	"github.com/gofunct/stencil/filter"
 	"github.com/mgutz/str"
 )
 
@@ -24,66 +23,29 @@ func tasks(p *stencil.Project) {
 		c.Run("go get github.com/robertkrimen/godocdown/godocdown")
 	})
 
-	p.Func("lint", nil, func(c *stencil.Context) {
-		c.Run("golint .")
-		c.Run("gofmt -w -s .")
-		c.Run("go vet .")
+	p.Func("build", nil, func(c *stencil.Context) {
+		c.Run("go install", stencil.M{"$in": "./..."})
 	})
 
-	p.Func("readme", stencil.S{"install"},  func(c *stencil.Context) {
+	p.Func("lint", nil, func(c *stencil.Context) {
+		c.Run("golint .")
+		c.Run("gofmt -w -s ./...")
+		c.Run("go vet ./...")
+	})
+
+	p.Func("push", stencil.S{"test", "lint", "build"}, func(c *stencil.Context) {
+		c.Run("git add .")
+		c.Run(`git commit -m "default git commit"`)
+		c.Run("git push origin master")
+	})
+
+	p.Func("readme", stencil.S{"install"}, func(c *stencil.Context) {
 		c.Run("godocdown -o README.md")
-	 	c.Pipe(
-	filter.Load("./README.md"),
+		c.Pipe(
+			filter.Load("./README.md"),
 			filter.Str(str.ReplaceF("--", "\n[stencil](https://github.com/stencil.com)\n", 1)),
 			filter.Write(),
 		)
-	 })
-
-	p.Func("build", nil, func(c *stencil.Context) {
-		c.Run("go install", stencil.M{"$in": "cmd/gostencil"})
-	})
-
-	p.Func("interactive", nil, func(c *stencil.Context) {
-		c.Bash(`
-			echo name?
-			read name
-			echo hello $name
-		`)
-	})
-
-	p.Func("whoami", nil, func(c *stencil.Context) {
-		c.Run("whoami")
-	})
-
-	pass := 0
-	p.Func("err2", nil, func(*stencil.Context) {
-		if pass == 2 {
-			stencil.Halt("oh oh")
-		}
-	})
-
-	p.Func("err", stencil.S{"err2"}, func(*stencil.Context) {
-		pass++
-		if pass == 1 {
-			return
-		}
-		stencil.Halt("foo err")
-	}).Src("test/*.txt")
-
-	p.Func("hello", nil, func(c *stencil.Context) {
-		name := c.Args.AsString("default value", "name", "n")
-		fmt.Println("Hello", name)
-	}).Src("*.hello").Wait(3000)
-
-	p.Func("server", nil, func(c *stencil.Context) {
-		c.Start("main.go", stencil.M{"$in": "cmd/example"})
-	}).Src("cmd/example/**/*.go")
-
-	p.Func("change-package", nil, func(c *stencil.Context) {
-		// works on mac
-		c.Run(`find . -name "*.go" -print | xargs sed -i "" 's|gopkg.in/gostencil.v1|gopkg.in/gostencil.v2|g'`)
-		// maybe linux?
-		//Run(`find . -name "*.go" -print | xargs sed -i 's|gopkg.in/gostencil.v1|gopkg.in/gostencil.v2|g'`)
 	})
 }
 

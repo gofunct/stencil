@@ -3,7 +3,7 @@ package stencil
 import (
 	"bytes"
 	"fmt"
-	"github.com/gofunct/stencil/pkg/glob"
+	"github.com/gofunct/gofs"
 	"net/http"
 	"path"
 )
@@ -11,7 +11,7 @@ import (
 // Asset is any file which can be loaded and processed by a filter.
 type Asset struct {
 	bytes.Buffer
-	Info *glob.FileAsset
+	Info *gofs.FileAsset
 	// WritePath is the write destination of the asset.
 	WritePath string
 	Pipeline  *Pipeline

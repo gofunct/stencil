@@ -1,9 +1,8 @@
 package stencil
 
 import (
+	"github.com/gofunct/gofs"
 	"time"
-
-	"github.com/gofunct/stencil/pkg/print"
 	"github.com/mgutz/str"
 )
 
@@ -81,7 +80,7 @@ func (j *Job) Deps(names ...interface{}) {
 	for _, name := range names {
 		switch dep := name.(type) {
 		default:
-			print.Error(j.Name, "Dependency types must be (string | P | Parallel | S | Series)")
+			gofs.Error(j.Name, "Dependency types must be (string | P | Parallel | S | Series)")
 		case string:
 			j.dependencies = append(j.dependencies, dep)
 		case P:

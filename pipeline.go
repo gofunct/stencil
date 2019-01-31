@@ -1,7 +1,7 @@
 package stencil
 
 import (
-	"github.com/gofunct/stencil/pkg/print"
+	"github.com/gofunct/gofs"
 )
 
 // Verbose indicates whether to log verbosely
@@ -64,17 +64,17 @@ func (pipeline *Pipeline) Pipe(filters ...interface{}) *Pipeline {
 func (pipeline *Pipeline) Run() {
 	for i, filter := range pipeline.Filters {
 		if i == 1 && len(pipeline.Assets) == 0 {
-			print.Info("pipeline", "There are 0 assets in pipeline. Check your Load filter. %+v\n", pipeline)
+			gofs.Info("pipeline", "There are 0 assets in pipeline. Check your Load filter. %+v\n", pipeline)
 		}
 		switch fn := filter.(type) {
 		default:
-			print.Panic("pipeline", "Invalid filter type %+v\n", fn)
+			gofs.Panic("pipeline", "Invalid filter type %+v\n", fn)
 		// receives a single asset, a filter
 		case func(*Asset) error:
 			for _, asset := range pipeline.Assets {
 				err := fn(asset)
 				if err != nil {
-					print.Error("pipeline", "%+v\n", err)
+					gofs.Error("pipeline", "%+v\n", err)
 					break
 				}
 			}
@@ -87,14 +87,14 @@ func (pipeline *Pipeline) Run() {
 		case func([]*Asset) error:
 			err := fn(pipeline.Assets)
 			if err != nil {
-				print.Error("pipeline", "%+v\n", err)
+				gofs.Error("pipeline", "%+v\n", err)
 				break
 			}
 		// receives the pipeline, can add remove assets
 		case func(*Pipeline) error:
 			err := fn(pipeline)
 			if err != nil {
-				print.Error("pipeline", "%+v\n", err)
+				gofs.Error("pipeline", "%+v\n", err)
 				break
 			}
 		}

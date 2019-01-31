@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/gofunct/stencil/pkg/print"
+	"github.com/gofunct/common/pkg/print"
 	"github.com/mgutz/ansi"
 )
 
@@ -98,7 +98,7 @@ func (gcmd *command) runAsync() error {
 
 	// kills previously spawned process (if exists)
 	killSpawned(id)
-	runnerWaitGroup.Add(1)
+	gofs.RunnerWaitGroup.Add(1)
 	waitExit = true
 	go func() {
 		err = cmd.Start()
@@ -111,7 +111,7 @@ func (gcmd *command) runAsync() error {
 			print.Debug("#", "Processes[%q] added\n", id)
 		}
 		cmd.Wait()
-		runnerWaitGroup.Done()
+		gofs.RunnerWaitGroup.Done()
 	}()
 	return nil
 }
