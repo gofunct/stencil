@@ -1,9 +1,11 @@
 //+build wireinject
 
-package app
+package cloud
 
 import (
 	"context"
+	"github.com/gofunct/stencil/app"
+	"github.com/gofunct/stencil/app/server"
 	"time"
 
 	"github.com/google/wire"
@@ -23,13 +25,14 @@ import (
 // into wire_gen.go when Wire is run.
 
 // setupGCP is a Wire injector function that sets up the App using GCP.
-func setupGCP(ctx context.Context, a *App) (*App, func(), error) {
+func setupGCP(ctx context.Context, f ...app.AppFunc) (*Api, func(), error) {
 	// This will be filled in by Wire with providers from the provider sets in
 	// wire.Build.
 	wire.Build(
+		app.NewApp,
 		gcpcloud.GCP,
+		server.NewServer,
 		cloudmysql.Open,
-		applicationSet,
 		gcpBucket,
 		gcpMOTDVar,
 		gcpSQLParams,
@@ -39,14 +42,14 @@ func setupGCP(ctx context.Context, a *App) (*App, func(), error) {
 
 // gcpBucket is a Wire provider function that returns the GCS bucket based on
 // the command-line a.
-func gcpBucket(ctx context.Context, a *App, client *gcp.HTTPClient) (*blob.Bucket, error) {
-	return gcsblob.OpenBucket(ctx, client, a.bucket, nil)
+func gcpBucket(ctx context.Context, a *app.App, client *gcp.HTTPClient) (*blob.Bucket, error) {
+	return gcsblob.OpenBucket(ctx, client, a.Values.Bucket, nil)
 }
 
 // gcpSQLParams is a Wire provider function that returns the Cloud SQL
 // connection parameters based on the command-line a. Other providers inside
 // gcpcloud.GCP use the parameters to construct a *sql.DB.
-func gcpSQLParams(id gcp.ProjectID, a *App) *cloudmysql.Params {
+func gcpSQLParams(id gcp.ProjectID, a *app.App) *cloudmysql.Params {
 	return &cloudmysql.Params{
 		ProjectID: string(id),
 		Region:    a.Values.State.DatabaseRegion.Value,
@@ -59,7 +62,7 @@ func gcpSQLParams(id gcp.ProjectID, a *App) *cloudmysql.Params {
 
 // gcpMOTDVar is a Wire provider function that returns the Message of the Day
 // variable from Runtime Configurator.
-func gcpMOTDVar(ctx context.Context, client pb.RuntimeConfigManagerClient, project gcp.ProjectID, a *App) (*runtimevar.Variable, func(), error) {
+func gcpMOTDVar(ctx context.Context, client pb.RuntimeConfigManagerClient, project gcp.ProjectID, a *app.App) (*runtimevar.Variable, func(), error) {
 	name := runtimeconfigurator.ResourceName{
 		ProjectID: string(project),
 		Config:    a.Values.State.RUnVarConfig.Value,

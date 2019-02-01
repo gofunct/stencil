@@ -1,13 +1,15 @@
 //+build wireinject
 
-package app
+package cloud
 
 import (
 	"context"
 	"database/sql"
+	"github.com/gofunct/stencil/app"
 	"time"
 
 	"github.com/go-sql-driver/mysql"
+	myserver "github.com/gofunct/stencil/app/server"
 	"github.com/google/wire"
 	"go.opencensus.io/trace"
 	"gocloud.dev/blob"
@@ -25,14 +27,15 @@ import (
 
 // setupLocal is a Wire injector function that sets up the App using
 // local implementations.
-func setupLocal(ctx context.Context, a *App) (*App, func(), error) {
+func setupLocal(ctx context.Context, f ...app.AppFunc) (*Api, func(), error) {
 	// This will be filled in by Wire with providers from the provider sets in
 	// wire.Build.
 	wire.Build(
 		wire.InterfaceValue(new(requestlog.Logger), requestlog.Logger(nil)),
 		wire.InterfaceValue(new(trace.Exporter), trace.Exporter(nil)),
+		app.NewApp,
 		server.Set,
-		applicationSet,
+		myserver.NewServer,
 		dialLocalSQL,
 		localBucket,
 		localRuntimeVar,
@@ -42,13 +45,13 @@ func setupLocal(ctx context.Context, a *App) (*App, func(), error) {
 
 // localBucket is a Wire provider function that returns a directory-based bucket
 // based on the command-line a.
-func localBucket(a *App) (*blob.Bucket, error) {
+func localBucket(a *app.App) (*blob.Bucket, error) {
 	return fileblob.OpenBucket(a.Values.Bucket, nil)
 }
 
 // dialLocalSQL is a Wire provider function that connects to a MySQL database
 // (usually on localhost).
-func dialLocalSQL(a *App) (*sql.DB, error) {
+func dialLocalSQL(a *app.App) (*sql.DB, error) {
 
 	cfg := &mysql.Config{
 		User:   a.Values.Bucket,
@@ -62,7 +65,7 @@ func dialLocalSQL(a *App) (*sql.DB, error) {
 
 // localRuntimeVar is a Wire provider function that returns the Message of the
 // Day variable based on a local file.
-func localRuntimeVar(a *App) (*runtimevar.Variable, func(), error) {
+func localRuntimeVar(a *app.App) (*runtimevar.Variable, func(), error) {
 	dur, _ := time.ParseDuration(a.Values.RunVarWait)
 	v, err := filevar.New(a.Values.RunVar, runtimevar.StringDecoder, &filevar.Options{
 		WaitDuration: dur,
