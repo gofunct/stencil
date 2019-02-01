@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}
+data:
+  bucket: {{ Values.app.bucket }}
+  dbHost: {{ Values.app.dbHost }}
+  dbName: {{ Values.app.dbName }}
+  dbUser: {{ Values.app.dbUser }}
+  dbPassword: {{ Values.app.dbPassword }}
+  runtimeVar: {{ Values.app.runtimeVar }}
+  runtimeVarWait: {{ Values.app.runtimeVarWait }}
+  cloudSqlRegion: {{ Values.app.cloudSqlRegion }}
+  runtimeConfigName: {{ Values.app.runtimeConfigName }}

@@ -1,10 +1,12 @@
 package stencil
 
 import (
+	"bytes"
 	"context"
 	"github.com/hashicorp/go-getter"
 	"gopkg.in/cheggaaa/pb.v1"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/signal"
@@ -118,3 +120,80 @@ type readCloser struct {
 }
 
 func (c *readCloser) Close() error { return c.close() }
+
+func GetAndWrite(src string, writer io.Writer, opts ...getter.ClientOption) {
+	var mode = getter.ClientModeAny
+
+	// Get the pwd
+	pwd, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("Error getting wd: %s", err)
+	}
+	opts = append(
+		opts,
+		getter.WithProgress(defaultProgressBar),
+	)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	// Build the client
+	client := &getter.Client{
+		Ctx:              ctx,
+		Src:              src,
+		Dst:              ".",
+		Pwd:              pwd,
+		Mode:             mode,
+		Detectors:        nil,
+		Decompressors:    nil,
+		Getters:          nil,
+		Dir:              false,
+		ProgressListener: nil,
+		Options:          opts,
+	}
+	client.Get()
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	errChan := make(chan error, 2)
+	go func() {
+		defer wg.Done()
+		defer cancel()
+		if err := client.Get(); err != nil {
+			errChan <- err
+		}
+	}()
+
+	c := make(chan os.Signal)
+	signal.Notify(c, os.Interrupt)
+
+	select {
+	case sig := <-c:
+		signal.Reset(os.Interrupt)
+		cancel()
+		wg.Wait()
+		log.Printf("signal %v", sig)
+	case <-ctx.Done():
+		wg.Wait()
+		log.Printf("success!")
+	case err := <-errChan:
+		wg.Wait()
+		log.Fatalf("Error downloading: %s", err)
+	}
+	var bits []byte
+	if err := filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() && info.Name() == "vendor" {
+			return filepath.SkipDir
+		} else {
+			b, err := ioutil.ReadFile(".")
+			if err != nil {
+				return err
+			}
+			bits = append(bits, b...)
+		}
+		return nil
+	}); err != nil {
+		buf := bytes.NewBuffer(bits)
+		io.Copy(writer, buf)
+	}
+}

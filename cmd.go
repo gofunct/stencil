@@ -3,11 +3,11 @@ package stencil
 import (
 	"bytes"
 	"fmt"
+	"github.com/gofunct/gofs"
+	"github.com/mgutz/ansi"
 	"os"
 	"os/exec"
 	"strings"
-	"github.com/gofunct/gofs"
-	"github.com/mgutz/ansi"
 )
 
 // Processes are the processes spawned by Start()

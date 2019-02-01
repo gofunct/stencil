@@ -15,15 +15,37 @@
 package commands
 
 import (
-	"github.com/gofunct/gofs"
+	"fmt"
+	"log"
+	"os/exec"
+
 	"github.com/spf13/cobra"
 )
 
-// initCmd represents the init command
-var initCmd = &cobra.Command{
-	Use:   "init",
-	Short: "Initialize a Stencil project with boilerplate",
+// playCmd represents the play command
+var playCmd = &cobra.Command{
+	Use:   "play",
+	Short: "A brief description of your command",
+	Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		gofs.Load("github.com/gofunct/stencil//{{.App}}", cfg.Output)
+		c := exec.Command("cat")
+
+		stdin, err := c.StdinPipe()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		cmd.SetOutput(stdin)
+		out, err := c.CombinedOutput()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Fprintf(cmd.OutOrStdout(), "%s]n%v\n%T\n", out, out, out, out)
 	},
 }

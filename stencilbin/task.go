@@ -16,6 +16,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/gofunct/gofs"
 	"github.com/gofunct/gofs/watcher"
 	"github.com/gofunct/stencil"
 	"io/ioutil"
@@ -29,7 +30,6 @@ import (
 	"runtime"
 	"syscall"
 	"time"
-	"github.com/gofunct/gofs"
 )
 
 var isWindows = runtime.GOOS == "windows"

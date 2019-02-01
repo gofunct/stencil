@@ -1,0 +1,15 @@
+apiversion: v1
+appversion: "1.0"
+description: A Helm chart for Kubernetes
+home: /Users/coleman
+icon: https://github.com/gofunct/logo/blob/master/white_logo_dark_background.jpg?raw=true
+keywords:
+- stencil
+- coleman
+maintainers:
+  email: coleman.word@gofunct.com
+  name: Coleman Word
+  url: https://github.com/gofunct
+name: sample
+sources: github/Users/coleman/go/src/github.com/gofunct/stencil/test/app
+version: 0.1.0

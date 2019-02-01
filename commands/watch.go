@@ -17,7 +17,7 @@ package commands
 import (
 	"flag"
 	"fmt"
-	"github.com/gofunct/common/pkg/logger/zap"
+	"github.com/gofunct/common/pkg/zap"
 	"github.com/gokyle/fswatch"
 	"os"
 	"time"

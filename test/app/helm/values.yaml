@@ -1,0 +1,47 @@
+app:
+  bucket: ""
+  cloudsqlregion: ""
+  dbhost: ""
+  dbname: ""
+  dbpassword: ""
+  dbuser: ""
+  runtimeconfigname: ""
+  runtimevar: ""
+  runtimevarwait: ""
+bucket: coleman-bucket
+certpath: ./certs/app.key
+dbhost: ""
+dbpassword: admin
+dbuser: coleman
+deploy:
+  fullnameoverride: ""
+  image:
+    pullpolicy: IfNotPresent
+    repository: nginx
+    tag: stable
+  ingress:
+    enabled: false
+    hosts:
+    - chart-example.local
+    paths: []
+    tls: []
+  nameoverride: ""
+  replicacount: 1
+  service:
+    port: 80
+    type: ClusterIP
+dockerignore:
+- '*.md'
+- .idea
+gitignore:
+- vendor
+- .idea
+- bin
+- temp
+- certs
+modules: true
+protodir: ./proto
+runvarwait: 15s
+staticdir: ./static
+templatedir: ./templates
+tfdir: ./deploy
